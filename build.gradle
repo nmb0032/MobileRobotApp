@@ -3,3 +3,14 @@
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//Handles the android tools plugin for gradle, wouldn't build other wise...
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'
+    }
+}
