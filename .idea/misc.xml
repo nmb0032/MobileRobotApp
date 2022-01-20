@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_bluetooth.xml" value="0.3307291666666667" />
+        <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_device_list.xml" value="0.25" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_main.xml" value="0.296875" />
       </map>
     </option>
