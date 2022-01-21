@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">RoboVision</string>
-    <string name="btn_filter">Filter</string>
+    <string name="bt_activity_btn">Bluetooth Test</string>
+    <string name="send_test_bit_text">Send Test Bit</string>
+    <string name="rx">RX:</string>
 </resources>

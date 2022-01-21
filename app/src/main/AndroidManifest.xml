@@ -15,6 +15,9 @@
     <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- End -->
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -32,6 +35,13 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".BluetoothActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
