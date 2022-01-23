@@ -39,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
-                startActivity(intent);
+                openBluetoothActivity();
             }
         });
 
+    }
+
+    private void openBluetoothActivity(){
+        Intent intent = new Intent(this, BluetoothActivity.class);
+        startActivity(intent);
     }
 }
