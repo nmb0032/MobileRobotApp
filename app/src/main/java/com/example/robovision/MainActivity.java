@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mRCActivityBtn;
+    private Button mBTActivityBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Assigning GUI variables initialized above
-        mRCActivityBtn = (Button)findViewById(R.id.remote_btn);
+        mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
 
         //Creating OpenCV instance
         if (!OpenCVLoader.initDebug())
@@ -33,20 +33,21 @@ public class MainActivity extends AppCompatActivity {
 
         //Onclick listeners
 
-        mRCActivityBtn.setOnClickListener(new View.OnClickListener() {
+
+        mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
             /**
              * Switches to bluetooth activity on button press
              */
             @Override
             public void onClick(View v){
-                openRemoteActivity();
+                openBluetoothActivity();
             }
         });
 
     }
 
-    private void openRemoteActivity(){
-        Intent intent = new Intent(this, RemoteControl.class);
+    private void openBluetoothActivity(){
+        Intent intent = new Intent(this, BluetoothActivity.class);
         startActivity(intent);
     }
 }
