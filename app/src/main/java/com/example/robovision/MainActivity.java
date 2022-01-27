@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Onclick listeners
 
+
         mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
             /**
              * Switches to bluetooth activity on button press

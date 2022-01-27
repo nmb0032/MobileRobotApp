@@ -3,4 +3,9 @@
     <string name="bt_activity_btn">Bluetooth</string>
     <string name="send_test_bit_text">Send Test Bit</string>
     <string name="rx">RX:</string>
+    <string name="Remote">Remote</string>
+    <string name="Reverse">Reverse</string>
+    <string name="Forward">Forward</string>
+    <string name="Left">Left</string>
+    <string name="Right">Right</string>
 </resources>
