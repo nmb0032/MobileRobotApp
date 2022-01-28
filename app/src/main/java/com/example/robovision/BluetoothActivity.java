@@ -48,6 +48,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private Button mBluetoothOff;
     private Button mShowPairedDevices;
     private Button mDiscoverNewDevices;
+    private Button mRemoteControl;
     private Set<BluetoothDevice> mPairedDevices;
     private ArrayAdapter<String> mBluetoothArrayAdapter;
     private ListView mDevicesListView;
@@ -78,6 +79,7 @@ public class BluetoothActivity extends AppCompatActivity {
         mBluetoothOff       = (Button)findViewById(R.id.off);
         mShowPairedDevices  = (Button)findViewById(R.id.PairedBtn);
         mDiscoverNewDevices = (Button)findViewById(R.id.discover);
+        mRemoteControl      = (Button)findViewById(R.id.remote);
         mTestBit            = (CheckBox)findViewById(R.id.checkboxTestBit);
 
         mBluetoothArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1); //Getting list structure for UI devicelist view
@@ -99,15 +101,16 @@ public class BluetoothActivity extends AppCompatActivity {
              */
           @Override
           public void handleMessage(Message msg) {
-              if(msg.what == MESSAGE_READ){
+              if(msg.what == MESSAGE_READ){ //Message read returned from thread handler means a message was transmitted to phone
                   //convert msg object to string
                   String readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
                   mReadBuffer.setText(readMessage);
               }
 
-              if(msg.what == CONNECTING_STATUS){
+              if(msg.what == CONNECTING_STATUS){ //Connecting status message returned from thread handler means bluetooth device was connected succesfully
                   if(msg.arg1 == 1)
                       mBluetoothStatus.setText("Connected to Device: " + msg.obj);
+                      mRemoteControl.setEnabled(true); //Enable remote control button for remote control activity
                   else
                       mBluetoothStatus.setText("Connection Failed");
               }
@@ -174,6 +177,15 @@ public class BluetoothActivity extends AppCompatActivity {
                 }
             });
 
+            /**
+             * Sets click functionality for remote control button switching activity contexts
+             * to remote control activity while passing bluetooth thread.
+             */
+            mRemoteControl.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) { remoteControl();}
+            });
+
         }
     }
 
@@ -224,6 +236,15 @@ public class BluetoothActivity extends AppCompatActivity {
         }
         else
             Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Switch to remote control activity function
+     */
+    private void remoteControl(){
+        Intent intent = new Intent(getApplicationContext(), RemoteControl.class);
+        intent.putExtra("ConnectedThread", mConnectedThread); //Put in pass off, should implement serializable
+        startActivity(intent);
     }
 
     final BroadcastReceiver blReceiver = new BroadcastReceiver() {
@@ -314,7 +335,7 @@ public class BluetoothActivity extends AppCompatActivity {
                     try {
                         mBluetoothSocket.connect();
                     } catch(IOException e) {
-                        //TODO: start back here
+
                         try {
                             fail = true;
                             mBluetoothSocket.close();
@@ -324,8 +345,8 @@ public class BluetoothActivity extends AppCompatActivity {
                         }
                     }
                     if(!fail) {
-                        mConnectedThread = new ConnectedThread(mBluetoothSocket, mHandler);
-                        mConnectedThread.start();
+                        ((BTBaseApplication)this.getApplicationContext()).BluetoothThread = new ConnectedThread(mBluetoothSocket, mHandler);
+                        ((BTBaseApplication)this.getApplicationContext()).BluetoothThread.start();
 
                         mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name).sendToTarget();
                     }
@@ -351,5 +372,6 @@ public class BluetoothActivity extends AppCompatActivity {
         }
         return device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
+
 
 }
