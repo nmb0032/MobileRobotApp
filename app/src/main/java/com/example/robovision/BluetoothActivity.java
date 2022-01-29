@@ -56,7 +56,6 @@ public class BluetoothActivity extends AppCompatActivity {
 
     //Bluetooth handler, worker, adapter, and socket
     private Handler mHandler; //this object will receive callbacks from BT thread
-    private ConnectedThread mConnectedThread; //serves as BT thread worker send and receive
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothSocket mBluetoothSocket = null;
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -65,6 +64,9 @@ public class BluetoothActivity extends AppCompatActivity {
     private final static int REQUEST_ENABLE_BT = 1;
     public  final static int MESSAGE_READ = 2;
     private final static int CONNECTING_STATUS = 3;
+
+    //Application class
+    private BTBaseApplication mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,6 +91,8 @@ public class BluetoothActivity extends AppCompatActivity {
         mDevicesListView.setAdapter(mBluetoothArrayAdapter); //setting array adapter to list view UI
         mDevicesListView.setOnItemClickListener(mDeviceClickListener);
 
+        mApplication = (BTBaseApplication)getApplication();//Set application variable
+
         //Location permission request
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -108,11 +112,11 @@ public class BluetoothActivity extends AppCompatActivity {
               }
 
               if(msg.what == CONNECTING_STATUS){ //Connecting status message returned from thread handler means bluetooth device was connected succesfully
-                  if(msg.arg1 == 1)
+                  if(msg.arg1 == 1) {
                       mBluetoothStatus.setText("Connected to Device: " + msg.obj);
                       mRemoteControl.setEnabled(true); //Enable remote control button for remote control activity
-                  else
-                      mBluetoothStatus.setText("Connection Failed");
+                  }
+                  else mBluetoothStatus.setText("Connection Failed");
               }
           }
         };
@@ -130,8 +134,8 @@ public class BluetoothActivity extends AppCompatActivity {
             mTestBit.setOnClickListener(new View.OnClickListener(){
                @Override
                public void onClick(View v){
-                   if(mConnectedThread!=null){
-                       mConnectedThread.write("1"); //TODO: implement write
+                   if(mApplication.bluetoothThread!=null){
+                       mApplication.bluetoothThread.write("1"); //TODO: implement write
                    }
                }
             });
@@ -243,7 +247,6 @@ public class BluetoothActivity extends AppCompatActivity {
      */
     private void remoteControl(){
         Intent intent = new Intent(getApplicationContext(), RemoteControl.class);
-        intent.putExtra("ConnectedThread", mConnectedThread); //Put in pass off, should implement serializable
         startActivity(intent);
     }
 
@@ -345,8 +348,8 @@ public class BluetoothActivity extends AppCompatActivity {
                         }
                     }
                     if(!fail) {
-                        ((BTBaseApplication)this.getApplicationContext()).BluetoothThread = new ConnectedThread(mBluetoothSocket, mHandler);
-                        ((BTBaseApplication)this.getApplicationContext()).BluetoothThread.start();
+                        mApplication.bluetoothThread = new ConnectedThread(mBluetoothSocket, mHandler);
+                        mApplication.bluetoothThread.start();
 
                         mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name).sendToTarget();
                     }

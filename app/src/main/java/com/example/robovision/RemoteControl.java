@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RemoteControl extends AppCompatActivity {
@@ -12,6 +14,9 @@ public class RemoteControl extends AppCompatActivity {
     private Button mReverse;
     private Button mRight;
     private Button mLeft;
+
+    //application context
+    private BTBaseApplication mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -22,6 +27,10 @@ public class RemoteControl extends AppCompatActivity {
         mReverse = (Button)findViewById(R.id.Reverse);
         mRight = (Button)findViewById(R.id.Right);
         mLeft = (Button)findViewById(R.id.Left);
+
+        mApplication = (BTBaseApplication)getApplication(); //getting application varaibles
+
+        checkBluetoothConnection(); //checking bluetooth connection
         
         mForward.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -51,14 +60,34 @@ public class RemoteControl extends AppCompatActivity {
 
     private void Forward(){
         Log.d("Remote","Forward pressed");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write("1");
+        }
     }
     private void Reverse(){
         Log.d("Remote","Reverse pressed");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write("2");
+        }
     }
     private void Right(){
         Log.d("Remote","Right pressed");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write("3");
+        }
     }
     private void Left(){
         Log.d("Remote","Left pressed");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write("4");
+        }
+    }
+
+    private void checkBluetoothConnection(){
+        if(mApplication.bluetoothThread==null)
+        {
+            Toast.makeText(getApplicationContext(), "Bluetooth Connection Interrupted",Toast.LENGTH_SHORT).show();
+            //Handle this
+        }
     }
 }
