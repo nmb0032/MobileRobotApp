@@ -7,8 +7,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.view.View.OnClickListener;
 
 public class RemoteControl extends AppCompatActivity {
+    private final int HOLD_INTERVAL = 50;
+
     //GUI components, contains four direction buttons
     private Button mForward;
     private Button mReverse;
@@ -31,31 +34,31 @@ public class RemoteControl extends AppCompatActivity {
         mApplication = (BTBaseApplication)getApplication(); //getting application varaibles
 
         checkBluetoothConnection(); //checking bluetooth connection
-        
-        mForward.setOnClickListener(new View.OnClickListener(){
+
+        mForward.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Forward();
             }
-        });
-        mReverse.setOnClickListener(new View.OnClickListener() {
+        }));
+        mReverse.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Reverse();
             }
-        });
-        mRight.setOnClickListener(new View.OnClickListener() {
+        }));
+        mRight.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Right();
             }
-        });
-        mLeft.setOnClickListener(new View.OnClickListener() {
+        }));
+        mLeft.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Left();
             }
-        });
+        }));
     }
 
     private void Forward(){
