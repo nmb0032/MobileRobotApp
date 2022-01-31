@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View.OnClickListener;
 
 public class RemoteControl extends AppCompatActivity {
-    private final int HOLD_INTERVAL = 50;
+    private final int HOLD_INTERVAL = 10;
 
     //GUI components, contains four direction buttons
     private Button mForward;
@@ -76,13 +76,13 @@ public class RemoteControl extends AppCompatActivity {
     private void Right(){
         Log.d("Remote","Right pressed");
         if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write("3");
+            mApplication.bluetoothThread.write("4");
         }
     }
     private void Left(){
         Log.d("Remote","Left pressed");
         if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write("4");
+            mApplication.bluetoothThread.write("3");
         }
     }
 
