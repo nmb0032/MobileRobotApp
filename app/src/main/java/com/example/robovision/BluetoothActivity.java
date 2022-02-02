@@ -135,7 +135,7 @@ public class BluetoothActivity extends AppCompatActivity {
                @Override
                public void onClick(View v){
                    if(mApplication.bluetoothThread!=null){
-                       mApplication.bluetoothThread.write("1"); //TODO: implement write
+                       mApplication.bluetoothThread.write("1");
                    }
                }
             });

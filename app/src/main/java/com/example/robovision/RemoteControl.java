@@ -2,6 +2,7 @@ package com.example.robovision;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,7 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View.OnClickListener;
 
 public class RemoteControl extends AppCompatActivity {
-    private final int HOLD_INTERVAL = 50;
+
+    //Motion keys
+    private final static String FORWARD = "1";
+    private final static String REVERSE = "2";
+    private final static String RIGHT   = "3";
+    private final static String LEFT    = "4";
+    private final static String STOP    = "0";
 
     //GUI components, contains four direction buttons
     private Button mForward;
@@ -35,60 +42,87 @@ public class RemoteControl extends AppCompatActivity {
 
         checkBluetoothConnection(); //checking bluetooth connection
 
-        mForward.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
+        mForward.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Forward();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Forward();
+                } else if(event.getAction() == MotionEvent.ACTION_UP){
+                    Stop();
+                }
+                return true;
             }
-        }));
-        mReverse.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
+        });
+        mReverse.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Reverse();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Reverse();
+                } else if(event.getAction() == MotionEvent.ACTION_UP){
+                    Stop();
+                }
+                return true;
             }
-        }));
-        mRight.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
+        });
+        mRight.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Right();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Right();
+                } else if(event.getAction() == MotionEvent.ACTION_UP){
+                    Stop();
+                }
+                return true;
             }
-        }));
-        mLeft.setOnTouchListener(new RepeatListener(HOLD_INTERVAL, HOLD_INTERVAL, new OnClickListener() {
+        });
+        mLeft.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Left();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Left();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Stop();
+                }
+                return true;
             }
-        }));
+        });
     }
 
     private void Forward(){
-        Log.d("Remote","Forward pressed");
+        Log.d("Remote","Forward Started");
         if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write("1");
+            mApplication.bluetoothThread.write(FORWARD);
         }
     }
     private void Reverse(){
-        Log.d("Remote","Reverse pressed");
+        Log.d("Remote","Reverse started");
         if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write("2");
+            mApplication.bluetoothThread.write(REVERSE);
         }
     }
     private void Right(){
-        Log.d("Remote","Right pressed");
+        Log.d("Remote","Right started");
         if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write("3");
+            mApplication.bluetoothThread.write(RIGHT);
         }
     }
     private void Left(){
-        Log.d("Remote","Left pressed");
+        Log.d("Remote","Left started");
         if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write("4");
+            mApplication.bluetoothThread.write(LEFT);
+        }
+    }
+    private void Stop(){
+        Log.d("Remote", "STOP");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(STOP);
         }
     }
 
     private void checkBluetoothConnection(){
         if(mApplication.bluetoothThread==null)
         {
+            Log.e("Bluetooth", "Bluetooth thread not connected!");
             Toast.makeText(getApplicationContext(), "Bluetooth Connection Interrupted",Toast.LENGTH_SHORT).show();
             //Handle this
         }
