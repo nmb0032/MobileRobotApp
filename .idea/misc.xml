@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub Projects/MobileRobotApp/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.1935" />
+        <entry key="..\:/GitHub Projects/MobileRobotApp/app/src/main/res/drawable/ic_baseline_mic_off_24.xml" value="0.1935" />
+        <entry key="..\:/GitHub Projects/MobileRobotApp/app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
+        <entry key="..\:/GitHub Projects/MobileRobotApp/app/src/main/res/layout/activity_voice_control.xml" value="0.18541666666666667" />
+        <entry key="..\:/GitHub Projects/MobileRobotApp/app/src/main/res/layout/activity_voice_control_alt.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_main.xml" value="0.296875" />
       </map>
     </option>

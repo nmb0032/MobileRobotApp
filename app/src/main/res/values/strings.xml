@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RoboVision</string>
-    <string name="btn_filter">Filter</string>
+    <string name="btn_VC0">Voice Control 1</string>
+    <string name="btn_VC1">Voice Control 2</string>
 </resources>
