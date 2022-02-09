@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.robovision">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoboVision"
         tools:targetApi="31">
+        <activity android:name=".ColorBlobDetectionActivity"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
