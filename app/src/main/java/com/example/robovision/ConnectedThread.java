@@ -3,6 +3,7 @@ package com.example.robovision;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +62,7 @@ public class ConnectedThread extends Thread {
         byte[] bytes = input.getBytes();
         try {
             mmOutStream.write(bytes);
+            Log.d("Bluetooth", "Data sent!");
         } catch (IOException e){
             //do something later to handle
         }
