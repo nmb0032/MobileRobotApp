@@ -6,37 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".RemoteControl">
 
-    <androidx.gridlayout.widget.GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="296dp">
+
+            <Button
+                android:id="@+id/Forward"
+                android:layout_width="123dp"
+                android:layout_height="98dp"
+                android:text="@string/Forward"
+                app:layout_column="2"
+                app:layout_row="0" />
+
+            <Button
+                android:id="@+id/Left"
+                android:layout_width="144dp"
+                android:layout_height="84dp"
+                android:text="@string/Left"
+                app:layout_column="1"
+                app:layout_row="1" />
+
+            <Button
+                android:id="@+id/Right"
+                android:layout_width="144dp"
+                android:layout_height="83dp"
+                android:text="@string/Right"
+                app:layout_column="3"
+                app:layout_row="1" />
+
+            <Button
+                android:id="@+id/Reverse"
+                android:layout_width="122dp"
+                android:layout_height="114dp"
+                android:text="@string/Reverse"
+                app:layout_column="2"
+                app:layout_row="2" />
+        </androidx.gridlayout.widget.GridLayout>
 
         <Button
-            android:id="@+id/Forward"
-            android:text="@string/Forward"
-            app:layout_column="1"
-            app:layout_row="0" />
-
-        <Button
-            android:id="@+id/Left"
-            android:text="@string/Left"
-            app:layout_column="0"
-            app:layout_row="1" />
-
-        <Button
-            android:id="@+id/Right"
-            android:text="@string/Right"
-            app:layout_column="2"
-            app:layout_row="1" />
-
-        <Button
-            android:id="@+id/Reverse"
-            android:text="@string/Reverse"
-            app:layout_column="1"
-            app:layout_row="2" />
-    </androidx.gridlayout.widget.GridLayout>
+            android:id="@+id/disconnect_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disconnect" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

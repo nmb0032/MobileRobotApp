@@ -61,8 +61,9 @@ public class ConnectedThread extends Thread {
     public void write(String input){
         byte[] bytes = input.getBytes();
         try {
+            Log.d("Bluetooth", "Sending Data" + bytes.toString());
             mmOutStream.write(bytes);
-            Log.d("Bluetooth", "Data sent!");
+            mmOutStream.flush(); //Attempting to force bytes to write to stream for possibly speed up?
         } catch (IOException e){
             //do something later to handle
         }

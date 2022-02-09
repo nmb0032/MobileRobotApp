@@ -1,5 +1,6 @@
 package com.example.robovision;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,7 +25,7 @@ public class RemoteControl extends AppCompatActivity {
     private Button mReverse;
     private Button mRight;
     private Button mLeft;
-
+    private Button mDisconnect;
     //application context
     private BTBaseApplication mApplication;
 
@@ -37,6 +38,7 @@ public class RemoteControl extends AppCompatActivity {
         mReverse = (Button)findViewById(R.id.Reverse);
         mRight = (Button)findViewById(R.id.Right);
         mLeft = (Button)findViewById(R.id.Left);
+        mDisconnect = (Button)findViewById(R.id.disconnect_btn);
 
         mApplication = (BTBaseApplication)getApplication(); //getting application varaibles
 
@@ -86,6 +88,12 @@ public class RemoteControl extends AppCompatActivity {
                 return true;
             }
         });
+        mDisconnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                disconnect();
+            }
+        });
     }
 
     private void Forward(){
@@ -119,6 +127,17 @@ public class RemoteControl extends AppCompatActivity {
         }
     }
 
+    private void disconnect(){
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.cancel();
+            mApplication.bluetoothThread = null;
+            Toast.makeText(getApplicationContext(), "Disconnected from Bluetooth Device", Toast.LENGTH_SHORT).show();
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
     private void checkBluetoothConnection(){
         if(mApplication.bluetoothThread==null)
         {
@@ -127,4 +146,5 @@ public class RemoteControl extends AppCompatActivity {
             //Handle this
         }
     }
+
 }
