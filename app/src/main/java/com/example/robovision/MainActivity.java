@@ -2,14 +2,17 @@ package com.example.robovision;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 
-import org.opencv.android.OpenCVLoader;
+import android.view.View;
+import android.widget.Button;
 
-import android.util.Log;
+import com.example.robovision.calibration.CameraCalibrationActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button mCalibrationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,19 +20,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Creating OpenCV instance
-        if (!OpenCVLoader.initDebug())
-            Log.e("OpenCV", "unable to load OpenCV");
-        else
-            Log.d("OpenCV", "OpenCV opened successfully");
+        mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
 
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(bluetoothAdapter == null) {
-            //bluetooth unsupported
-            Log.e("Bluetooth","Bluetooth not supported");
-        }
-        else {
-            Log.d("Bluetooth", "Bluetooth adapter initiated");
-        }
+        mCalibrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calibrate();
+            }
+        });
+
+
+    }
+
+    private void calibrate(){
+        Intent intent = new Intent(this, CameraCalibrationActivity.class);
+        startActivity(intent);
     }
 }

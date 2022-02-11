@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_main.xml" value="0.296875" />
+        <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/camera_calibration_surface_view.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/menu/calibration.xml" value="0.4166666666666667" />
       </map>
     </option>
   </component>
