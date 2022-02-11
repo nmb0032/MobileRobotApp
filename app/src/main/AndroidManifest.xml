@@ -4,7 +4,15 @@
     package="com.example.robovision">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.front" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.front.autofocus" android:required="false"/>
+    <supports-screens android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:resizeable="true"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,7 +21,6 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RoboVision"
         tools:targetApi="31">
         <activity
             android:name=".calibration.CameraCalibrationActivity"
@@ -24,6 +31,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.RoboVision"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

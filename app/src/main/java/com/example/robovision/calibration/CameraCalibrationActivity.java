@@ -120,7 +120,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+        //super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.calibration, menu);
         mMenu = menu;
         return true;
