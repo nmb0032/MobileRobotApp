@@ -1,4 +1,4 @@
-package com.example.robovision;
+package com.example.robovision.bluetooth;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,10 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import org.w3c.dom.Text;
+import com.example.robovision.R;
+import com.example.robovision.RemoteControl;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;

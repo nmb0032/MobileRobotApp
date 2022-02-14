@@ -1,4 +1,4 @@
-package com.example.robovision;
+package com.example.robovision.bluetooth;
 
 import android.app.Application;
 

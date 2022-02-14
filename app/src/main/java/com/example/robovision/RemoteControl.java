@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View.OnClickListener;
+
+import com.example.robovision.bluetooth.BTBaseApplication;
 
 public class RemoteControl extends AppCompatActivity {
 
