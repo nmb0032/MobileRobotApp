@@ -13,4 +13,5 @@
     <string name="please_wait">Please, wait</string>
     <string name="original">Original</string>
     <string name="undistorted">Undistorted</string>
+    <string name="calibration_heading">Calibrated:</string>
 </resources>

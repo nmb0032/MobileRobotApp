@@ -193,7 +193,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
 
                     if (mCalibrator.isCalibrated()) {
                         CalibrationResult.save(CameraCalibrationActivity.this,
-                                mCalibrator.getCameraMatrix(), mCalibrator.getDistortionCoefficients());
+                                mCalibrator.getCameraMatrix(), mCalibrator.getDistortionCoefficients(), CameraCalibrationActivity.this);
                     }
                 }
             }.execute();
@@ -208,7 +208,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
             mWidth = width;
             mHeight = height;
             mCalibrator = new CameraCalibrator(mWidth, mHeight);
-            if (CalibrationResult.tryLoad(this, mCalibrator.getCameraMatrix(), mCalibrator.getDistortionCoefficients())) {
+            if (CalibrationResult.tryLoad(this, mCalibrator.getCameraMatrix(), mCalibrator.getDistortionCoefficients(), getBaseContext())) {
                 mCalibrator.setCalibrated();
             } else {
                 if (mMenu != null && !mCalibrator.isCalibrated()) {

@@ -5,6 +5,7 @@ import org.opencv.core.Mat;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public abstract class CalibrationResult {
@@ -14,8 +15,9 @@ public abstract class CalibrationResult {
     private static final int CAMERA_MATRIX_COLS = 3;
     private static final int DISTORTION_COEFFICIENTS_SIZE = 5;
 
-    public static void save(Activity activity, Mat cameraMatrix, Mat distortionCoefficients) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    //Modifying to make shared preference across multiple activities
+    public static void save(Activity activity, Mat cameraMatrix, Mat distortionCoefficients, Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();
 
         double[] cameraMatrixArray = new double[CAMERA_MATRIX_ROWS * CAMERA_MATRIX_COLS];
@@ -39,8 +41,8 @@ public abstract class CalibrationResult {
         Log.i(TAG, "Saved distortion coefficients: " + distortionCoefficients.dump());
     }
 
-    public static boolean tryLoad(Activity activity, Mat cameraMatrix, Mat distortionCoefficients) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static boolean tryLoad(Activity activity, Mat cameraMatrix, Mat distortionCoefficients, Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         if (sharedPref.getFloat("0", -1) == -1) {
             Log.i(TAG, "No previous calibration results found");
             return false;
@@ -66,4 +68,15 @@ public abstract class CalibrationResult {
 
         return true;
     }
+
+    public static boolean checkCalibration(Context context){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedPref.getFloat("0", -1) == -1) {
+            Log.i(TAG, "No previous calibration results found");
+            return false;
+        }
+        Log.i(TAG, "Calibration found!");
+        return true;
+    }
+
 }
