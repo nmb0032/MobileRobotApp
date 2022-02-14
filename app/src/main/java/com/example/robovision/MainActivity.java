@@ -1,18 +1,25 @@
 package com.example.robovision;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.opencv.android.OpenCVLoader;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.robovision.calibration.CameraCalibrationActivity;
+import com.example.robovision.calibration.CalibrationResult;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String TAG = "RV::Main";
+
+    private Button mCalibrationButton;
 
     private Button mBTActivityBtn;
 
@@ -22,18 +29,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Assigning GUI variables initialized above
+        mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
 
-        //Creating OpenCV instance
-        if (!OpenCVLoader.initDebug())
-            Log.e("OpenCV", "unable to load OpenCV");
-        else
-            Log.d("OpenCV", "OpenCV opened successfully");
+        //Check if calibration exists
+        if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
 
-        //Onclick listeners
-
-
+         
         mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
             /**
              * Switches to bluetooth activity on button press
@@ -43,8 +45,49 @@ public class MainActivity extends AppCompatActivity {
                 openBluetoothActivity();
             }
         });
+      
+        mCalibrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calibrate();
+            }
+        });
+
 
     }
+
+    private void calibrate(){
+        Intent intent = new Intent(this, CameraCalibrationActivity.class);
+        startActivity(intent);
+    }
+
+    private void calibrateDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("Your Camera Must be calibrated to use our AI technology\n" +
+                " Would you like to calibrate the camera now?");
+        dialog.setTitle("Camera Not Calibrated!");
+        dialog.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i(TAG,"User clicked yes");
+                        calibrate();
+                    }
+                });
+        dialog.setNegativeButton("Ignore",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Disable AI functionality
+                        Log.i(TAG, "AI abilities disabled");
+                        //TODO: add disable buttons function
+                        Toast.makeText(getApplicationContext(), "AI abilities disabled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
+    }
+        
 
     private void openBluetoothActivity(){
         Intent intent = new Intent(this, BluetoothActivity.class);
