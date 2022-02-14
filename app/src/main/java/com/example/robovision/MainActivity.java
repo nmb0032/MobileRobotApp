@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mCalibrationButton;
 
+    private Button mBTActivityBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -27,11 +30,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
+        mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
 
         //Check if calibration exists
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
 
-
+         
+        mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Switches to bluetooth activity on button press
+             */
+            @Override
+            public void onClick(View v){
+                openBluetoothActivity();
+            }
+        });
+      
         mCalibrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,5 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
+    }
+        
+
+    private void openBluetoothActivity(){
+        Intent intent = new Intent(this, BluetoothActivity.class);
+        startActivity(intent);
     }
 }
