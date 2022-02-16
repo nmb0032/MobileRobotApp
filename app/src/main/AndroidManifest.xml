@@ -53,9 +53,14 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".calibration.CameraCalibrationActivity"
-            android:exported="true">
+        <activity android:name=".calibration.CameraCalibrationActivity"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ColorBlobDetectionActivity"
+                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>

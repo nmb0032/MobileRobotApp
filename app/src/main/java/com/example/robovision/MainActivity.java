@@ -16,11 +16,15 @@ import com.example.robovision.bluetooth.BluetoothActivity;
 import com.example.robovision.calibration.CameraCalibrationActivity;
 import com.example.robovision.calibration.CalibrationResult;
 
+
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "RV::Main";
 
     private Button mCalibrationButton;
     private Button mBTActivityBtn;
+
+    //GUI
+    private Button mOpenCVActivityBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
+        mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
 
         //Check if calibration exists
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
@@ -49,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 calibrate();
+            }
+        });
+      
+        mOpenCVActivityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOpenCVActivity();
             }
         });
 
@@ -90,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void openBluetoothActivity(){
         Intent intent = new Intent(this, BluetoothActivity.class);
+        startActivity(intent);
+    }
+
+    private void openOpenCVActivity() {
+        Intent intent = new Intent(this, ColorBlobDetectionActivity.class);
         startActivity(intent);
     }
 }
