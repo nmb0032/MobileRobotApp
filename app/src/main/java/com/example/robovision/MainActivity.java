@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.robovision.ai.ColorBlobDetectionActivity;
 import com.example.robovision.bluetooth.BluetoothActivity;
 import com.example.robovision.calibration.CameraCalibrationActivity;
 import com.example.robovision.calibration.CalibrationResult;
@@ -22,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mCalibrationButton;
     private Button mBTActivityBtn;
-
-    //GUI
     private Button mOpenCVActivityBtn;
 
     @Override
@@ -41,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
          
         mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
-            /**
-             * Switches to bluetooth activity on button press
-             */
             @Override
             public void onClick(View v){
                 openBluetoothActivity();
@@ -65,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private void calibrate(){
-        Intent intent = new Intent(this, CameraCalibrationActivity.class);
-        startActivity(intent);
     }
 
     private void calibrateDialog(){
@@ -98,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
     }
-        
+
+    private void calibrate(){
+        Intent intent = new Intent(this, CameraCalibrationActivity.class);
+        startActivity(intent);
+    }
 
     private void openBluetoothActivity(){
         Intent intent = new Intent(this, BluetoothActivity.class);

@@ -1,4 +1,4 @@
-package com.example.robovision;
+package com.example.robovision.ai;
 
 import java.util.ArrayList;
 import java.util.Iterator;

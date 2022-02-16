@@ -59,7 +59,7 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ColorBlobDetectionActivity"
+        <activity android:name=".ai.ColorBlobDetectionActivity"
                   android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
