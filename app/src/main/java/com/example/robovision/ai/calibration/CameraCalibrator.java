@@ -33,7 +33,6 @@ public class CameraCalibrator {
     private double mRms;
     private double mSquareSize = 0.0181;
     private Size mImageSize;
-
     private boolean mCalibrating;
 
     public CameraCalibrator(int width, int height, boolean calibrating) {
@@ -51,7 +50,7 @@ public class CameraCalibrator {
     }
 
     public void processFrame(Mat grayFrame, Mat rgbaFrame) {
-        findPattern(grayFrame);
+        if(mCalibrating) findPattern(grayFrame);
         renderFrame(rgbaFrame);
     }
 
