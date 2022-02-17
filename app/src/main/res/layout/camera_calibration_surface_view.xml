@@ -3,7 +3,7 @@
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".calibration.CameraCalibrationActivity">
+    tools:context=".ai.calibration.CameraCalibrationActivity">
 
     <org.opencv.android.JavaCameraView
         android:layout_width="fill_parent"

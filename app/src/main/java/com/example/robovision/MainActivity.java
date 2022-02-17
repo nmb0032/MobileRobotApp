@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.example.robovision.ai.ColorBlobDetectionActivity;
 import com.example.robovision.bluetooth.BluetoothActivity;
-import com.example.robovision.calibration.CameraCalibrationActivity;
-import com.example.robovision.calibration.CalibrationResult;
+import com.example.robovision.ai.calibration.CameraCalibrationActivity;
+import com.example.robovision.ai.calibration.CalibrationResult;
 
 
 public class MainActivity extends AppCompatActivity {

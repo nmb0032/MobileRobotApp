@@ -19,6 +19,7 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.imgproc.Imgproc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,12 +28,23 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
+import android.widget.Toast;
+
+//Importing calibration package
+import com.example.robovision.MainActivity;
+import com.example.robovision.ai.calibration.CalibrationFrameRender;
+import com.example.robovision.ai.calibration.OnCameraFrameRender;
+import com.example.robovision.ai.calibration.CalibrationResult;
+import com.example.robovision.ai.calibration.CameraCalibrator;
 
 import com.example.robovision.R;
+
 
 public class ColorBlobDetectionActivity extends CameraActivity implements OnTouchListener, CvCameraViewListener2 {
     private static final String  TAG              = "OCVSample::Activity";
 
+    private CameraCalibrator     mCameraCalibrator; //Calibrator for distortion matrix
+    private OnCameraFrameRender  mOnCameraFrameRender; //Holds calibrator
     private boolean              mIsColorSelected = false;
     private Mat                  mRgba;
     private Scalar               mBlobColorRgba;
@@ -114,6 +126,16 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     }
 
     public void onCameraViewStarted(int width, int height) {
+        //Setting Distortion matrix
+        mCameraCalibrator = new CameraCalibrator(width, height, false);
+        if(!CalibrationResult.tryLoad(this, mCameraCalibrator.getCameraMatrix(), mCameraCalibrator.getDistortionCoefficients(), getBaseContext())){
+            Log.e(TAG, "Camera not calibrated, returning home");
+            Toast.makeText(getApplicationContext(), "Please calibrate camera", Toast.LENGTH_LONG).show();
+            mainActivity();
+        }
+        mOnCameraFrameRender = new OnCameraFrameRender(new CalibrationFrameRender(mCameraCalibrator)); //Renderer with distortion matrix
+        //////////////////////////////////////////////////
+
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mDetector = new ColorBlobDetector();
         mSpectrum = new Mat();
@@ -178,7 +200,10 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        mRgba = inputFrame.rgba();
+        // Distortion application
+        Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), mRgba, Imgproc.COLOR_RGB2RGBA); //apply distortion matrix and Convert from BGR to RGBA
+        // End of distortion application//
+        //TODO: Fix the null pointer exception
 
         if (mIsColorSelected) {
             mDetector.process(mRgba);
@@ -202,5 +227,10 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB_FULL, 4);
 
         return new Scalar(pointMatRgba.get(0, 0));
+    }
+
+    public void mainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

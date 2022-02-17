@@ -11,7 +11,7 @@
 // When you've captured necessary amount of pattern corners (usually ~20 are enough),
 // press "Calibrate" button for performing camera calibration.
 
-package com.example.robovision.calibration;
+package com.example.robovision.ai.calibration;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraActivity;
@@ -207,7 +207,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
         if (mWidth != width || mHeight != height) {
             mWidth = width;
             mHeight = height;
-            mCalibrator = new CameraCalibrator(mWidth, mHeight);
+            mCalibrator = new CameraCalibrator(mWidth, mHeight, true);
             if (CalibrationResult.tryLoad(this, mCalibrator.getCameraMatrix(), mCalibrator.getDistortionCoefficients(), getBaseContext())) {
                 mCalibrator.setCalibrated();
             } else {

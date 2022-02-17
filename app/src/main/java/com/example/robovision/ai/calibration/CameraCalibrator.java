@@ -1,4 +1,4 @@
-package com.example.robovision.calibration;
+package com.example.robovision.ai.calibration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,9 @@ public class CameraCalibrator {
     private double mSquareSize = 0.0181;
     private Size mImageSize;
 
-    public CameraCalibrator(int width, int height) {
+    private boolean mCalibrating;
+
+    public CameraCalibrator(int width, int height, boolean calibrating) {
         mImageSize = new Size(width, height);
         mFlags = Calib3d.CALIB_FIX_PRINCIPAL_POINT +
                  Calib3d.CALIB_ZERO_TANGENT_DIST +
@@ -44,6 +46,7 @@ public class CameraCalibrator {
         Mat.eye(3, 3, CvType.CV_64FC1).copyTo(mCameraMatrix);
         mCameraMatrix.put(0, 0, 1.0);
         Mat.zeros(5, 1, CvType.CV_64FC1).copyTo(mDistortionCoefficients);
+        mCalibrating = calibrating;
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
@@ -139,9 +142,10 @@ public class CameraCalibrator {
 
     private void renderFrame(Mat rgbaFrame) {
         drawPoints(rgbaFrame);
-
-        Imgproc.putText(rgbaFrame, "Captured: " + mCornersBuffer.size(), new Point(rgbaFrame.cols() / 3 * 2, rgbaFrame.rows() * 0.1),
-                Imgproc.FONT_HERSHEY_SIMPLEX, 1.0, new Scalar(255, 255, 0));
+        if(mCalibrating){
+            Imgproc.putText(rgbaFrame, "Captured: " + mCornersBuffer.size(), new Point(rgbaFrame.cols() / 3 * 2, rgbaFrame.rows() * 0.1),
+                    Imgproc.FONT_HERSHEY_SIMPLEX, 1.0, new Scalar(255, 255, 0));
+        }
     }
 
     public Mat getCameraMatrix() {

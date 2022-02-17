@@ -1,4 +1,4 @@
-package com.example.robovision.calibration;
+package com.example.robovision.ai.calibration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,21 +26,6 @@ class PreviewFrameRender extends FrameRender {
     @Override
     public Mat render(CvCameraViewFrame inputFrame) {
         return inputFrame.rgba();
-    }
-}
-
-class CalibrationFrameRender extends FrameRender {
-    public CalibrationFrameRender(CameraCalibrator calibrator) {
-        mCalibrator = calibrator;
-    }
-
-    @Override
-    public Mat render(CvCameraViewFrame inputFrame) {
-        Mat rgbaFrame = inputFrame.rgba();
-        Mat grayFrame = inputFrame.gray();
-        mCalibrator.processFrame(grayFrame, rgbaFrame);
-
-        return rgbaFrame;
     }
 }
 
@@ -93,7 +78,7 @@ class ComparisonFrameRender extends FrameRender {
     }
 }
 
-class OnCameraFrameRender {
+public class OnCameraFrameRender {
     private FrameRender mFrameRender;
     public OnCameraFrameRender(FrameRender frameRender) {
         mFrameRender = frameRender;

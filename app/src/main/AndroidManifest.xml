@@ -53,7 +53,7 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".calibration.CameraCalibrationActivity"
+        <activity android:name=".ai.calibration.CameraCalibrationActivity"
                   android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />

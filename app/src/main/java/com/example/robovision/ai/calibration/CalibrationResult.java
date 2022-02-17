@@ -1,4 +1,4 @@
-package com.example.robovision.calibration;
+package com.example.robovision.ai.calibration;
 
 import org.opencv.core.Mat;
 
