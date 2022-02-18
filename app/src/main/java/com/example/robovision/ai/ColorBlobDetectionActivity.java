@@ -203,11 +203,15 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         // Distortion application
         Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), mRgba, Imgproc.COLOR_RGB2RGBA); //apply distortion matrix and Convert from BGR to RGBA
         // End of distortion application//
-        //TODO: Fix the null pointer exception
 
         if (mIsColorSelected) {
             mDetector.process(mRgba);
             List<MatOfPoint> contours = mDetector.getContours();
+
+            //Send off contours to object detector class
+            ObjectDetector.drawAngle(mRgba, mOpenCvCameraView.getHeight(), mOpenCvCameraView.getWidth());
+            ///////////////////////////////////////////
+
             Log.i(TAG, "Contours count: " + contours.size());
             Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
 
