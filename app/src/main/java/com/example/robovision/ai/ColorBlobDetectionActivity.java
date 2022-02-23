@@ -54,6 +54,9 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     private Size                 SPECTRUM_SIZE;
     private Scalar               CONTOUR_COLOR;
 
+    private static final int     CAMERA_ID = CameraBridgeViewBase.CAMERA_ID_FRONT;
+    private Driver               mDriver;
+
     private CameraBridgeViewBase mOpenCvCameraView;
 
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
@@ -91,6 +94,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+        mOpenCvCameraView.setCameraIndex(CAMERA_ID); //Setting which camera to use
     }
 
     @Override
@@ -134,6 +138,10 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
             mainActivity();
         }
         mOnCameraFrameRender = new OnCameraFrameRender(new CalibrationFrameRender(mCameraCalibrator)); //Renderer with distortion matrix
+        //Setting Targets Class
+
+        //Setting Driver Class
+        mDriver = new Driver(CAMERA_ID, mOpenCvCameraView.getWidth());
         //////////////////////////////////////////////////
 
         mRgba = new Mat(height, width, CvType.CV_8UC4);
@@ -209,7 +217,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
             List<MatOfPoint> contours = mDetector.getContours();
 
             //Send off contours to object detector class
-            ObjectDetector.drawAngle(mRgba, mOpenCvCameraView.getHeight(), mOpenCvCameraView.getWidth());
+            Driver.drawAngle(mRgba, mOpenCvCameraView.getHeight(), mOpenCvCameraView.getWidth());
             ///////////////////////////////////////////
 
             Log.i(TAG, "Contours count: " + contours.size());
