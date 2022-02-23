@@ -38,6 +38,11 @@ public class VoiceControlActivity extends AppCompatActivity implements
     private String LOG_TAG = "VoiceRecognitionActivity";
 
     //private BTBaseApplication mApplication;
+    private final static String FORWARD = "1";
+    private final static String REVERSE = "2";
+    private final static String RIGHT   = "3";
+    private final static String LEFT    = "4";
+    private final static String STOP    = "0";
 
     private void resetSpeechRecognizer() {
 
