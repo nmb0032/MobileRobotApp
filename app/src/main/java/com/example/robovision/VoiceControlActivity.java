@@ -24,6 +24,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;*/
 import java.util.ArrayList;
+//import com.example.robovision.bluetooth.BTBaseApplication;
 
 public class VoiceControlActivity extends AppCompatActivity implements
         RecognitionListener {
@@ -35,6 +36,8 @@ public class VoiceControlActivity extends AppCompatActivity implements
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
+
+    //private BTBaseApplication mApplication;
 
     private void resetSpeechRecognizer() {
 
@@ -155,11 +158,11 @@ public class VoiceControlActivity extends AppCompatActivity implements
         Log.i(LOG_TAG, "onResults");
         ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String text = "";
+        StringBuilder text = new StringBuilder();
         for (String result : matches)
-            text += result + "\n";
-
-        returnedText.setText(text);
+            text.append(result).append("\n");
+        CheckCommands(text.toString());
+        returnedText.setText(text.toString());
         speech.startListening(recognizerIntent);
     }
 
@@ -168,7 +171,6 @@ public class VoiceControlActivity extends AppCompatActivity implements
         String errorMessage = getErrorText(errorCode);
         Log.i(LOG_TAG, "FAILED " + errorMessage);
         returnedError.setText(errorMessage);
-
         // rest voice recogniser
         resetSpeechRecognizer();
         speech.startListening(recognizerIntent);
@@ -230,5 +232,55 @@ public class VoiceControlActivity extends AppCompatActivity implements
                 break;
         }
         return message;
+    }
+    public void CheckCommands (String text) {
+        if (text.toLowerCase().contains("stop")) {
+            Stop();
+        }
+        else if (text.toLowerCase().contains("forward")) {
+            Forward();
+        }
+        else if (text.toLowerCase().contains("reverse")) {
+            Reverse();
+        }
+        else if (text.toLowerCase().contains("left")) {
+            Left();
+        }
+        else if (text.toLowerCase().contains("right")) {
+            Right();
+        }
+        else {
+            Stop();
+        }
+    }
+    private void Forward(){
+        Log.d("Remote","Forward Started");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(FORWARD);
+        }
+    }
+    private void Reverse(){
+        Log.d("Remote","Reverse started");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(REVERSE);
+        }
+    }
+    private void Right(){
+        Log.d("Remote","Right started");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(RIGHT);
+        }
+    }
+    private void Left(){
+        Log.d("Remote","Left started");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(LEFT);
+        }
+    }
+    private void Stop(){
+        Log.d("Remote", "STOP");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(STOP);
+        }
     }
 }
