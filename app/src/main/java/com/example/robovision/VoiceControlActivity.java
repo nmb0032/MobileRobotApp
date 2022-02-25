@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,9 +25,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;*/
 import java.util.ArrayList;
-//import com.example.robovision.bluetooth.BTBaseApplication;
+import com.example.robovision.bluetooth.BTBaseApplication;
 
-public class VoiceControlActivity extends AppCompatActivity implements
+public class VoiceControlActivity extends Activity implements
         RecognitionListener {
 
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
@@ -37,7 +38,7 @@ public class VoiceControlActivity extends AppCompatActivity implements
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
 
-    //private BTBaseApplication mApplication;
+    private BTBaseApplication mApplication;
     private final static String FORWARD = "1";
     private final static String REVERSE = "2";
     private final static String RIGHT   = "3";
@@ -70,7 +71,7 @@ public class VoiceControlActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_voice_control);
 
         // UI initialisation
         returnedText = findViewById(R.id.textView1);
@@ -166,7 +167,7 @@ public class VoiceControlActivity extends AppCompatActivity implements
         StringBuilder text = new StringBuilder();
         for (String result : matches)
             text.append(result).append("\n");
-        CheckCommands(text.toString());
+        //CheckCommands(text.toString());
         returnedText.setText(text.toString());
         speech.startListening(recognizerIntent);
     }
@@ -259,31 +260,31 @@ public class VoiceControlActivity extends AppCompatActivity implements
         }
     }
     private void Forward(){
-        Log.d("Remote","Forward Started");
+        Log.d("VoiceControl","Forward Started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(FORWARD);
         }
     }
     private void Reverse(){
-        Log.d("Remote","Reverse started");
+        Log.d("VoiceControl","Reverse started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(REVERSE);
         }
     }
     private void Right(){
-        Log.d("Remote","Right started");
+        Log.d("VoiceControl","Right started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(RIGHT);
         }
     }
     private void Left(){
-        Log.d("Remote","Left started");
+        Log.d("VoiceControl","Left started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(LEFT);
         }
     }
     private void Stop(){
-        Log.d("Remote", "STOP");
+        Log.d("VoiceControl", "STOP");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(STOP);
         }
