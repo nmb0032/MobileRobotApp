@@ -73,6 +73,9 @@ public class VoiceControlActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_control);
 
+        //Grab Global activity
+        mApplication = (BTBaseApplication)getApplication();
+
         // UI initialisation
         returnedText = findViewById(R.id.textView1);
         returnedError = findViewById(R.id.errorView1);
