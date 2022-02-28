@@ -38,6 +38,7 @@ import com.example.robovision.ai.calibration.CalibrationResult;
 import com.example.robovision.ai.calibration.CameraCalibrator;
 
 import com.example.robovision.R;
+import com.example.robovision.bluetooth.BTBaseApplication;
 
 
 public class ColorBlobDetectionActivity extends CameraActivity implements OnTouchListener, CvCameraViewListener2 {
@@ -58,6 +59,9 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     private Driver               mDriver;
 
     private CameraBridgeViewBase mOpenCvCameraView;
+
+    private BTBaseApplication mApplication;
+
 
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -95,6 +99,9 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
         mOpenCvCameraView.setCameraIndex(CAMERA_ID); //Setting which camera to use
+
+        //Base Application with Bluetooth
+        mApplication = (BTBaseApplication)getApplication();
     }
 
     @Override
@@ -141,7 +148,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         //Setting Targets Class
 
         //Setting Driver Class
-        mDriver = new Driver(CAMERA_ID, mOpenCvCameraView.getWidth());
+        mDriver = new Driver(CAMERA_ID, mOpenCvCameraView.getWidth(), mApplication.bluetoothThread);
         //////////////////////////////////////////////////
 
         mRgba = new Mat(height, width, CvType.CV_8UC4);
