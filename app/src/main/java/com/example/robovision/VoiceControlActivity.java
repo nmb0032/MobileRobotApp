@@ -83,6 +83,9 @@ public class VoiceControlActivity extends Activity implements
         // start speech recogniser
         resetSpeechRecognizer();
 
+        // bluetooth setup
+        mApplication = (BTBaseApplication)getApplication(); //getting application varaibles
+
         // start progress bar
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
