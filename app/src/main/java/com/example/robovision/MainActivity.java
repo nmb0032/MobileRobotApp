@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.robovision.ai.OpenCVActivity;
 import com.example.robovision.ai.ColorBlobDetectionActivity;
 import com.example.robovision.bluetooth.BluetoothActivity;
 import com.example.robovision.ai.calibration.CameraCalibrationActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mCalibrationButton;
     private Button mBTActivityBtn;
     private Button mOpenCVActivityBtn;
+    private Button mMobileNetBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
         mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
+        mMobileNetBtn = (Button)findViewById(R.id.mobilenet_btn);
 
         //Check if calibration exists
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
@@ -57,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openOpenCVActivity();
+            }
+        });
+
+        mMobileNetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMobileNetActivity();
             }
         });
 
@@ -102,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void openOpenCVActivity() {
         Intent intent = new Intent(this, ColorBlobDetectionActivity.class);
+        startActivity(intent);
+    }
+
+    private void openMobileNetActivity() {
+        Intent intent = new Intent(this, OpenCVActivity.class);
         startActivity(intent);
     }
 }

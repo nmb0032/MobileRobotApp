@@ -23,12 +23,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Calibrate" />
+
         <Button
             android:id="@+id/opencv_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OpenCV Activity"
+            android:text="Color Mode"
 
             />
+
+        <Button
+            android:id="@+id/mobilenet_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mobile Net" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

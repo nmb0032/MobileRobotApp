@@ -4,13 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/nickb/AndroidStudioProjects/MobileRobotApp/app/src/main/res/layout/activity_bluetooth.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/nickb/AndroidStudioProjects/MobileRobotApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/nickb/AndroidStudioProjects/MobileRobotApp/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/nickb/AndroidStudioProjects/MobileRobotApp/app/src/main/res/layout/activity_opencv.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/MobileRobotApp/app/src/main/res/layout/activity_remote_control.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/MobileRobotApp/app/src/main/res/layout/color_blob_detection_surface_view.xml" value="0.12552083333333333" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_bluetooth.xml" value="0.3307291666666667" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_device_list.xml" value="0.25" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_main.xml" value="0.296875" />
-        <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_remote_control.xml" value="0.29438405797101447" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/activity_test.xml" value="0.12314814814814815" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/layout/camera_calibration_surface_view.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/nickb/AndroidStudioProjects/RoboVision/app/src/main/res/menu/calibration.xml" value="0.4166666666666667" />
