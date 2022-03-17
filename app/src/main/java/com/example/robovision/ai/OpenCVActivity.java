@@ -166,9 +166,9 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     public void onCameraViewStarted(int width, int height) {
         //Log.d(TAG, "onCameraViewStarted");
         //mRGBA = new Mat(height, width, CvType.CV_8UC4);
-        frame_t = new Mat();
+        frame_t   = new Mat();
         frame_ret = new Mat();
-
+        frame     = new Mat(height, width, CvType.CV_8UC4);
 
 
         String proto = getPath("MobileNetSSD_deploy.prototxt", this);
@@ -192,9 +192,8 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame)
     {
-
         Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), frame, Imgproc.COLOR_RGB2RGBA);
-        frame = inputFrame.rgba();
+        //frame = inputFrame.rgba();
         Core.transpose(frame, frame_t);
         Core.flip(frame_t, frame_t, 1);
         Imgproc.resize(frame_t, frame_ret, frame.size());
