@@ -28,6 +28,10 @@ public class Driver {
         Log.i(TAG, String.format("Pixel to degree ratio: %.2f", mFOV_Ratio));
     }
 
+    public static void FTL(int x, int y){
+
+    }
+
     public static void drawAngle(Mat img, int screen_height, int screen_width){
         int center_x = (int) screen_width / 2;
         int center_y = (int) screen_height / 2;
@@ -44,8 +48,26 @@ public class Driver {
         //Enter command to enter FTL activity
     }
 
+    /**
+     * Executes a follow the leader instruction following protocol on
+     * Arduino controller
+     * @param heading Must be between -180 and 180
+     * @param speed Must be between -400 and 400
+     */
     private void execute(int heading, int speed){
-        //Enter command for heading and speed change
+        if(heading < -180 || heading > 180)
+            throw new IllegalArgumentException("Heading value out of bounds: " + heading);
+        if(speed < -400 || speed > 400)
+            throw new IllegalArgumentException("Speed Invalid: " + speed);
+
+        String instruction = (speed > 0)? "+":"-";
+        instruction = instruction + String.format("%03d", Math.abs(speed)) + ";";
+
+        instruction = (heading > 0)? instruction + "+": instruction + "-";
+        instruction = instruction + String.format("%03d", Math.abs(heading)) + ";";
+
+        mBluetooth.write(instruction);
+        Log.i(TAG, instruction + " Sent");
     }
 
     private void pause(){
