@@ -25,6 +25,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;*/
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import com.example.robovision.bluetooth.BTBaseApplication;
 
 public class VoiceControlActivity extends Activity implements
@@ -44,6 +48,8 @@ public class VoiceControlActivity extends Activity implements
     private final static String RIGHT   = "3";
     private final static String LEFT    = "4";
     private final static String STOP    = "0";
+
+    private final Map<String, String> mCommands = new HashMap<String, String>();
 
     private void resetSpeechRecognizer() {
 
@@ -65,6 +71,15 @@ public class VoiceControlActivity extends Activity implements
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+    }
+
+    private void setMap() {
+        mCommands.put("FORWARD",FORWARD);
+        mCommands.put("REVERSE",REVERSE);
+        mCommands.put("RIGHT",RIGHT);
+        mCommands.put("LEFT",LEFT);
+        mCommands.put("STOP",STOP);
+
     }
 
     @Override
@@ -99,6 +114,9 @@ public class VoiceControlActivity extends Activity implements
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
             return;
         }
+
+        // set map values
+        setMap();
 
         setRecogniserIntent();
         speech.startListening(recognizerIntent);
@@ -173,7 +191,7 @@ public class VoiceControlActivity extends Activity implements
         StringBuilder text = new StringBuilder();
         for (String result : matches)
             text.append(result).append("\n");
-        //CheckCommands(text.toString());
+        CheckCommands(text.toString());
         returnedText.setText(text.toString());
         speech.startListening(recognizerIntent);
     }
@@ -246,53 +264,17 @@ public class VoiceControlActivity extends Activity implements
         return message;
     }
     public void CheckCommands (String text) {
-        if (text.toLowerCase().contains("stop")) {
-            Stop();
-        }
-        else if (text.toLowerCase().contains("forward")) {
-            Forward();
-        }
-        else if (text.toLowerCase().contains("reverse")) {
-            Reverse();
-        }
-        else if (text.toLowerCase().contains("left")) {
-            Left();
-        }
-        else if (text.toLowerCase().contains("right")) {
-            Right();
-        }
-        else {
-            Stop();
+        for (String key : mCommands.keySet()) {
+            if (text.toUpperCase().contains(key)) {
+                Move(key);
+            }
         }
     }
-    private void Forward(){
-        Log.d("VoiceControl","Forward Started");
-        if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write(FORWARD);
-        }
-    }
-    private void Reverse(){
-        Log.d("VoiceControl","Reverse started");
-        if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write(REVERSE);
-        }
-    }
-    private void Right(){
-        Log.d("VoiceControl","Right started");
-        if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write(RIGHT);
-        }
-    }
-    private void Left(){
-        Log.d("VoiceControl","Left started");
-        if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write(LEFT);
-        }
-    }
-    private void Stop(){
-        Log.d("VoiceControl", "STOP");
-        if(mApplication.bluetoothThread!=null){
-            mApplication.bluetoothThread.write(STOP);
+
+    private void Move(String command) {
+        Log.d("VoiceControl","Move command initiated, command code: " + command);
+        if (mApplication.bluetoothThread!=null) {
+            mApplication.bluetoothThread.write(Objects.requireNonNull(mCommands.get(command)));
         }
     }
 }
