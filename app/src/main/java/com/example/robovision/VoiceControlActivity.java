@@ -25,9 +25,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;*/
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.example.robovision.bluetooth.BTBaseApplication;
 
@@ -74,12 +78,11 @@ public class VoiceControlActivity extends Activity implements
     }
 
     private void setMap() {
-        mCommands.put("FORWARD",FORWARD);
+        mCommands.put("MOVE",FORWARD);
         mCommands.put("REVERSE",REVERSE);
         mCommands.put("RIGHT",RIGHT);
         mCommands.put("LEFT",LEFT);
         mCommands.put("STOP",STOP);
-
     }
 
     @Override
@@ -266,15 +269,49 @@ public class VoiceControlActivity extends Activity implements
     public void CheckCommands (String text) {
         for (String key : mCommands.keySet()) {
             if (text.toUpperCase().contains(key)) {
-                Move(key);
+                if (text.toUpperCase().contains("SECOND")) {
+                    String[] splitText = text.split("\n");
+                    ArrayList<String> numList = new ArrayList<>(0);
+                    for (String subString : splitText) {
+                            numList.add(subString.replaceAll("[^0-9]",""));
+                    }
+                    for (String value : numList) {
+                        if (!value.isEmpty()) {
+                            TimedMove(key, value);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    Move(key);
+                }
+                break;
             }
         }
     }
 
     private void Move(String command) {
-        Log.d("VoiceControl","Move command initiated, command code: " + command);
+        Log.d("VoiceControl","Move command initiated. Command code: " + command);
         if (mApplication.bluetoothThread!=null) {
             mApplication.bluetoothThread.write(Objects.requireNonNull(mCommands.get(command)));
         }
+    }
+    private void TimedMove(String command, String time) {
+        Log.d("VoiceControl","Timed move command initiated. Command code: " + command + " Duration: " + time);
+        if (mApplication.bluetoothThread!=null) {
+            mApplication.bluetoothThread.write(Objects.requireNonNull(mCommands.get(command)));
+        }
+        Timer timer = new Timer("Timer");
+        TimerTask stopTask = new TimerTask() {
+            @Override
+            public void run() {
+                Log.d("VoiceControl", "Timed task ended.");
+                if (mApplication.bluetoothThread!=null) {
+                    mApplication.bluetoothThread.write(STOP);
+                }
+            }
+        };
+        long delay = Long.parseLong(time) * 1000L;
+        timer.schedule(stopTask,delay);
     }
 }
