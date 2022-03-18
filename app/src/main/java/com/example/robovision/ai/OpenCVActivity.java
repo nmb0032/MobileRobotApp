@@ -243,6 +243,39 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                     int yLeftBottom = (int)(detections.get(i, 4)[0] * rows);
                     int xRightTop   = (int)(detections.get(i, 5)[0] * cols);
                     int yRightTop   = (int)(detections.get(i, 6)[0] * rows);
+
+                    //Autonmous driving////////
+
+                    // if the classNames[classId] == "person"
+                    //      if calc_area > max area of object:
+                    //          driver.pause()
+                    //      else
+                    //          calc center point
+                    //          driver.execute(x,y);
+                    //      break;
+                    ///////////////////////////////////
+
+                    if (classNames[classId].equals("person")) {
+                        int length = xRightTop - xLeftBottom;
+                        int width  = yRightTop - yLeftBottom;
+                        int length_frame = x2 - x1;
+                        int width_frame = y2 - y1;
+                        int area_frame = length_frame * width_frame; //assuming this is camera frame area.
+                        int area = length * width;
+
+                        if (area > area_frame) {
+                            //driver.pause();
+                        }
+                        else {
+                            int xCenter = (xLeftBottom + xRightTop) / 2;
+                            int yCenter = (yLeftBottom + yRightTop) / 2;
+                            //driver.execute(xCenter,yCenter);
+                        }
+                        break;
+
+                    }
+
+
                     // Draw rectangle around detected object.
                     Imgproc.rectangle(subFrame, new Point(xLeftBottom, yLeftBottom),
                             new Point(xRightTop, yRightTop),
