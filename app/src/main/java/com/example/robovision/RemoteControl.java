@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.robovision.bluetooth.BTBaseApplication;
 
 public class RemoteControl extends AppCompatActivity {
+    private final static String TAG = "Remote";
 
     //Motion keys
     private final static String FORWARD = "1";
@@ -20,6 +21,8 @@ public class RemoteControl extends AppCompatActivity {
     private final static String RIGHT   = "3";
     private final static String LEFT    = "4";
     private final static String STOP    = "0";
+    private final static String ENTER   = "B";
+    private final static String EXIT    = ";";
 
     //GUI components, contains four direction buttons
     private Button mForward;
@@ -44,9 +47,11 @@ public class RemoteControl extends AppCompatActivity {
         mApplication = (BTBaseApplication)getApplication(); //getting application varaibles
 
         checkBluetoothConnection(); //checking bluetooth connection
+        Enter(); //Entering Remote Control mode
 
         mForward.setOnTouchListener(new View.OnTouchListener() {
             @Override
+
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Forward();
@@ -97,34 +102,51 @@ public class RemoteControl extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(EXIT);
+        }
+        Log.d(TAG, "Exiting RC mode");
+    }
+
     private void Forward(){
-        Log.d("Remote","Forward Started");
+        Log.d(TAG,"Forward Started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(FORWARD);
         }
     }
     private void Reverse(){
-        Log.d("Remote","Reverse started");
+        Log.d(TAG,"Reverse started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(REVERSE);
         }
     }
     private void Right(){
-        Log.d("Remote","Right started");
+        Log.d(TAG,"Right started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(RIGHT);
         }
     }
     private void Left(){
-        Log.d("Remote","Left started");
+        Log.d(TAG,"Left started");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(LEFT);
         }
     }
     private void Stop(){
-        Log.d("Remote", "STOP");
+        Log.d(TAG, "STOP");
         if(mApplication.bluetoothThread!=null){
             mApplication.bluetoothThread.write(STOP);
+        }
+    }
+
+    private void Enter(){
+        Log.d(TAG, "Entering Remote Mode");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(ENTER);
         }
     }
 

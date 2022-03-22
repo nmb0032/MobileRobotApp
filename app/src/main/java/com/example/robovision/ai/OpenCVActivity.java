@@ -23,6 +23,8 @@ import com.example.robovision.ai.calibration.CalibrationFrameRender;
 import com.example.robovision.ai.calibration.CalibrationResult;
 import com.example.robovision.ai.calibration.CameraCalibrator;
 import com.example.robovision.ai.calibration.OnCameraFrameRender;
+import com.example.robovision.bluetooth.BTBaseApplication;
+import com.example.robovision.bluetooth.ConnectedThread;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -49,6 +51,10 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
 
     private CameraCalibrator mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender mOnCameraFrameRender; //Holds calibrator
+
+    private ConnectedThread mBluetooth; //For bluetooth connection
+
+    private Driver mDriver; //Holds driver for FTL
 
     int counter = 0;
 
@@ -114,6 +120,11 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(OpenCVActivity.this);
 
+        //Connecting Bluetooth from application context
+        BTBaseApplication app = (BTBaseApplication)getApplication(); //getting application varaibles
+        mBluetooth = app.bluetoothThread;
+        Driver.start(mBluetooth); //starting FTL command
+
         //Creating OpenCV instance
         if (!OpenCVLoader.initDebug())
             Log.e("OpenCV", "unable to load OpenCV");
@@ -170,6 +181,8 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         frame_ret = new Mat();
         frame     = new Mat(height, width, CvType.CV_8UC4);
 
+        //Creating Driver Instance
+        mDriver = new Driver(0, width);
 
         String proto = getPath("MobileNetSSD_deploy.prototxt", this);
         String weights = getPath("MobileNetSSD_deploy.caffemodel", this);
@@ -185,7 +198,10 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         mOnCameraFrameRender = new OnCameraFrameRender(new CalibrationFrameRender(mCameraCalibrator));
     }
 
-    public void onCameraViewStopped() {}
+    public void onCameraViewStopped() {
+            //Send stop command to robot
+            Driver.exit(mBluetooth);
+         }
 
 
 
@@ -264,12 +280,13 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                         int area = length * width;
 
                         if (area > area_frame) {
-                            //driver.pause();
+                            Driver.pause(mBluetooth);
                         }
                         else {
                             int xCenter = (xLeftBottom + xRightTop) / 2;
                             int yCenter = (yLeftBottom + yRightTop) / 2;
-                            //driver.execute(xCenter,yCenter);
+                            Driver.drawAngle(subFrame,length, width); //Draw location of object
+                            mDriver.FTL(xCenter,yCenter,mBluetooth);
                         }
                         break;
 
