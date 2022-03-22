@@ -217,7 +217,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         frame_t.release();
 
 
-        if (counter == 30){
+        if (counter == 10){
 
 
             final int IN_WIDTH = 300;
@@ -271,26 +271,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                     //      break;
                     ///////////////////////////////////
 
-                    if (classNames[classId].equals("person")) {
-                        int length = xRightTop - xLeftBottom;
-                        int width  = yRightTop - yLeftBottom;
-                        int length_frame = x2 - x1;
-                        int width_frame = y2 - y1;
-                        int area_frame = length_frame * width_frame; //assuming this is camera frame area.
-                        int area = length * width;
-
-                        if (area > area_frame) {
-                            Driver.pause(mBluetooth);
-                        }
-                        else {
-                            int xCenter = (xLeftBottom + xRightTop) / 2;
-                            int yCenter = (yLeftBottom + yRightTop) / 2;
-                            Driver.drawAngle(subFrame,length, width); //Draw location of object
-                            mDriver.FTL(xCenter,yCenter,mBluetooth);
-                        }
-                        break;
-
-                    }
 
 
                     // Draw rectangle around detected object.
@@ -307,6 +287,26 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                     // Write class name and confidence.
                     Imgproc.putText(subFrame, label, new Point(xLeftBottom, yLeftBottom),
                             Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 0, 0));
+
+                    if (classNames[classId].equals("person")) {
+                        int length = xRightTop - xLeftBottom;
+                        int width = yRightTop - yLeftBottom;
+                        int length_frame = x2 - x1;
+                        int width_frame = y2 - y1;
+                        int area_frame = length_frame * width_frame; //assuming this is camera frame area.
+                        int area = length * width;
+
+                        if (area > area_frame) {
+                            Driver.pause(mBluetooth);
+                        } else {
+                            int xCenter = (xLeftBottom + xRightTop) / 2;
+                            int yCenter = (yLeftBottom + yRightTop) / 2;
+                            Driver.drawAngle(subFrame,length, width); //Draw location of object
+                            mDriver.FTL(xCenter,yCenter,mBluetooth);
+                            Log.d(TAG, "Object located at " + xCenter + ", " + yCenter + " ClassID: " + classId);
+                        }
+                        break;
+                    }
                 }
             }
             //return frame;
