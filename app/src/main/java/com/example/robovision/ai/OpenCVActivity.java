@@ -48,6 +48,8 @@ import java.io.IOException;
 
 public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static String TAG = "MobileNetActivity";
+    private static int DETECTION_DELAY = 30;
+
 
     private CameraCalibrator mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender mOnCameraFrameRender; //Holds calibrator
@@ -116,6 +118,9 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_opencv);
+
+        mDriver = new Driver(0); //set FOV for driver before use
+
         javaCameraView = (JavaCameraView)findViewById(R.id.my_camera_view);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(OpenCVActivity.this);
@@ -175,14 +180,15 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-        //Log.d(TAG, "onCameraViewStarted");
+        Log.d(TAG, "onCameraViewStarted with width: " + width + " Height: " + height);
         //mRGBA = new Mat(height, width, CvType.CV_8UC4);
         frame_t   = new Mat();
         frame_ret = new Mat();
         frame     = new Mat(height, width, CvType.CV_8UC4);
 
-        //Creating Driver Instance
-        mDriver = new Driver(0, width);
+//        //Creating Driver Instance
+//        mDriver = new Driver(0);
+        mDriver.setup(width);
 
         String proto = getPath("MobileNetSSD_deploy.prototxt", this);
         String weights = getPath("MobileNetSSD_deploy.caffemodel", this);
@@ -217,7 +223,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         frame_t.release();
 
 
-        if (counter == 10){
+        if (counter == DETECTION_DELAY){
 
 
             final int IN_WIDTH = 300;
@@ -260,19 +266,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                     int xRightTop   = (int)(detections.get(i, 5)[0] * cols);
                     int yRightTop   = (int)(detections.get(i, 6)[0] * rows);
 
-                    //Autonmous driving////////
-
-                    // if the classNames[classId] == "person"
-                    //      if calc_area > max area of object:
-                    //          driver.pause()
-                    //      else
-                    //          calc center point
-                    //          driver.execute(x,y);
-                    //      break;
-                    ///////////////////////////////////
-
-
-
                     // Draw rectangle around detected object.
                     Imgproc.rectangle(subFrame, new Point(xLeftBottom, yLeftBottom),
                             new Point(xRightTop, yRightTop),
@@ -297,15 +290,17 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                         int area = length * width;
 
                         if (area > area_frame) {
-                            Driver.pause(mBluetooth);
+                            Driver.pause(mBluetooth); //Pause robot
                         } else {
                             int xCenter = (xLeftBottom + xRightTop) / 2;
                             int yCenter = (yLeftBottom + yRightTop) / 2;
-                            Driver.drawAngle(subFrame,length, width); //Draw location of object
-                            mDriver.FTL(xCenter,yCenter,mBluetooth);
+                            //Driver.drawAngle(subFrame,length, width); //Draw location of object
+                            mDriver.FTL(xCenter,yCenter,mBluetooth); //Drive to location
                             Log.d(TAG, "Object located at " + xCenter + ", " + yCenter + " ClassID: " + classId);
                         }
                         break;
+                    } else {
+                        Driver.pause(mBluetooth); //if no detection pause
                     }
                 }
             }
