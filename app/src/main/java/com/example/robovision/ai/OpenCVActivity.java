@@ -47,44 +47,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
-    private static String TAG = "MobileNetActivity";
-    private static int DETECTION_DELAY = 30;
+    private static final String TAG = "AI:MobileNetActivity";
+    private static final int    DETECTION_DELAY = 30;
+    private final int           PERMISSIONS_READ_CAMERA = 1;
 
-
-    private CameraCalibrator mCameraCalibrator; //Calibrator for distortion matrix
+    private CameraCalibrator    mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender mOnCameraFrameRender; //Holds calibrator
-
-    private ConnectedThread mBluetooth; //For bluetooth connection
-
-    private Driver mDriver; //Holds driver for FTL
+    private ConnectedThread     mBluetooth; //For bluetooth connection
+    private Driver              mDriver; //Holds driver for FTL
 
     int counter = 0;
 
     JavaCameraView javaCameraView;
-    Mat mRGBA, mRGBAT, frame, frame_t, frame_ret;
-    boolean startCanny = false;
-
-
-
-    private final int PERMISSIONS_READ_CAMERA=1;
-
-    public void Canny(View Button){
-
-        if (startCanny == false){
-            startCanny = true;
-        }
-
-        else{
-
-            startCanny = false;
-
-
-        }
-
-
-
-
-    }
+    Mat frame, frame_t, frame_ret;
 
     BaseLoaderCallback baseLoaderCallback = new BaseLoaderCallback(OpenCVActivity.this) {
         @Override
@@ -110,72 +85,16 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         }
     };
 
-
-
-    Button b2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_opencv);
-
-        mDriver = new Driver(0); //set FOV for driver before use
-
-        javaCameraView = (JavaCameraView)findViewById(R.id.my_camera_view);
-        javaCameraView.setVisibility(SurfaceView.VISIBLE);
-        javaCameraView.setCvCameraViewListener(OpenCVActivity.this);
-
-        //Connecting Bluetooth from application context
-        BTBaseApplication app = (BTBaseApplication)getApplication(); //getting application varaibles
-        mBluetooth = app.bluetoothThread;
-        Driver.start(mBluetooth); //starting FTL command
-
-        //Creating OpenCV instance
-        if (!OpenCVLoader.initDebug())
-            Log.e("OpenCV", "unable to load OpenCV");
-        else
-            Log.d("OpenCV", "OpenCV opened successfully");
-
-        /* switch to new activity start */
-        b2 = findViewById(R.id.page2);
-        b2.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mainActivity();
-                    }
-                }
-        );
-        /* switch to new activity end */
-
-// Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        PERMISSIONS_READ_CAMERA);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            Log.d(TAG, "PERMISSIOns granted");
-            javaCameraView.setCameraPermissionGranted();
-        }
-
-
+        driverSetup();
+        cameraViewSetup();
+        String msg = OpenCVLoader.initDebug() ? "OpenCV opened successfully" : "Unable to load OpenCV";
+        Log.d(TAG, msg);
+        checkPermissions();
     }
 
     @Override
@@ -186,8 +105,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         frame_ret = new Mat();
         frame     = new Mat(height, width, CvType.CV_8UC4);
 
-//        //Creating Driver Instance
-//        mDriver = new Driver(0);
         mDriver.setup(width);
 
         String proto = getPath("MobileNetSSD_deploy.prototxt", this);
@@ -205,7 +122,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     }
 
     public void onCameraViewStopped() {
-            //Send stop command to robot
             Driver.exit(mBluetooth);
          }
 
@@ -215,7 +131,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame)
     {
         Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), frame, Imgproc.COLOR_RGB2RGBA);
-        //frame = inputFrame.rgba();
         Core.transpose(frame, frame_t);
         Core.flip(frame_t, frame_t, 1);
         Imgproc.resize(frame_t, frame_ret, frame.size());
@@ -224,8 +139,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
 
 
         if (counter == DETECTION_DELAY){
-
-
             final int IN_WIDTH = 300;
             final int IN_HEIGHT = 300;
             final float WH_RATIO = (float)IN_WIDTH / IN_HEIGHT;
@@ -312,16 +225,10 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         }
 
         else {
-
             frame.release();
             frame_t.release();
-            counter = counter + 1;
+            counter++;
         }
-
-
-
-
-
         frame.release();
         frame_t.release();
         return frame_ret;
@@ -358,10 +265,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
             "sheep", "sofa", "train", "tvmonitor"};
     private Net net;
 
-
-
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -371,9 +274,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
             javaCameraView.disableView();
         }
     }
-
-
-
 
     @Override
     protected void onPause() {
@@ -386,16 +286,13 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
 
     }
 
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
         if (OpenCVLoader.initDebug())
         {
-            Log.d(TAG, "OpenCV is intialised again");
+            Log.d(TAG, "OpenCV is initialised again");
             baseLoaderCallback.onManagerConnected((BaseLoaderCallback.SUCCESS));
         }
         else
@@ -404,8 +301,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, baseLoaderCallback);
         }
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(
@@ -429,9 +324,50 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         }
     }
 
+    private void checkPermissions(){
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        PERMISSIONS_READ_CAMERA);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            Log.d(TAG, "permissions granted");
+            javaCameraView.setCameraPermissionGranted();
+        }
+    }
+
     private void mainActivity(){
         Intent i = new Intent(OpenCVActivity.this, MainActivity.class);
         startActivity(i);
     }
 
+    private void driverSetup(){
+        mDriver = new Driver(0); //set FOV for driver before use
+        BTBaseApplication app = (BTBaseApplication)getApplication(); //getting application varaibles
+        mBluetooth = app.bluetoothThread;
+        Driver.start(mBluetooth); //starting FTL command
+    }
+
+    private void cameraViewSetup(){
+        javaCameraView = (JavaCameraView)findViewById(R.id.my_camera_view);
+        javaCameraView.setVisibility(SurfaceView.VISIBLE);
+        javaCameraView.setCvCameraViewListener(OpenCVActivity.this);
+    }
 }
