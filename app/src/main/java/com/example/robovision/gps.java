@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 
 public class gps extends AppCompatActivity implements LocationListener {
-    private double latitude, longitude;
-    TextView txtLatitude, txtLongitude;
+    private double latitude, longitude, altitude,accuracy,speed;
+    TextView txtLatitude, txtLongitude, txtaltitude, txtaccuracy,txtspeed;
 
     LocationManager locationManager;
 
@@ -28,6 +28,9 @@ public class gps extends AppCompatActivity implements LocationListener {
 
         txtLatitude = (TextView) findViewById(R.id.txtLat);
         txtLongitude = (TextView) findViewById(R.id.txtLong);
+        txtaltitude = (TextView) findViewById(R.id.txtalt);
+        txtaccuracy = (TextView) findViewById(R.id.txtacc);
+        txtspeed = (TextView) findViewById(R.id.txtsp);
 
         locationManager = (LocationManager)  getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(gps.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -45,9 +48,16 @@ public class gps extends AppCompatActivity implements LocationListener {
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+        altitude = location.getAltitude();
+        accuracy = location.getAccuracy();
+        speed = location.getSpeed();
+
 
         txtLatitude.setText(String.valueOf(latitude));
         txtLongitude.setText(String.valueOf(longitude));
+        txtaltitude.setText(String.valueOf(altitude));
+        txtaccuracy.setText(String.valueOf(accuracy));
+        txtspeed.setText(String.valueOf(speed));
 
         //save battery
         locationManager.removeUpdates(this);
