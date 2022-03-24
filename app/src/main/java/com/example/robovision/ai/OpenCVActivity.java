@@ -23,6 +23,7 @@ import com.example.robovision.ai.calibration.CalibrationFrameRender;
 import com.example.robovision.ai.calibration.CalibrationResult;
 import com.example.robovision.ai.calibration.CameraCalibrator;
 import com.example.robovision.ai.calibration.OnCameraFrameRender;
+import com.example.robovision.ai.utils.ImageUtils;
 import com.example.robovision.bluetooth.BTBaseApplication;
 import com.example.robovision.bluetooth.ConnectedThread;
 
@@ -59,7 +60,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     int counter = 0;
 
     JavaCameraView javaCameraView;
-    Mat frame, frame_t, frame_ret;
+    Mat frame;
 
     BaseLoaderCallback baseLoaderCallback = new BaseLoaderCallback(OpenCVActivity.this) {
         @Override
@@ -101,8 +102,6 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     public void onCameraViewStarted(int width, int height) {
         Log.d(TAG, "onCameraViewStarted with width: " + width + " Height: " + height);
         //mRGBA = new Mat(height, width, CvType.CV_8UC4);
-        frame_t   = new Mat();
-        frame_ret = new Mat();
         frame     = new Mat(height, width, CvType.CV_8UC4);
 
         mDriver.setup(width);
@@ -131,11 +130,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame)
     {
         Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), frame, Imgproc.COLOR_RGB2RGBA);
-        Core.transpose(frame, frame_t);
-        Core.flip(frame_t, frame_t, 1);
-        Imgproc.resize(frame_t, frame_ret, frame.size());
-        frame.release();
-        frame_t.release();
+        ImageUtils.transpose(frame); /** for physical device **/
 
 
         if (counter == DETECTION_DELAY){
@@ -147,15 +142,15 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
             final double THRESHOLD = 0.2;
             // Get a new frame
             //Mat frame = inputFrame.rgba();
-            Imgproc.cvtColor(frame_ret, frame_ret, Imgproc.COLOR_RGBA2RGB);
+            Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2RGB);
             // Forward image through network.
-            Mat blob = Dnn.blobFromImage(frame_ret, IN_SCALE_FACTOR,
+            Mat blob = Dnn.blobFromImage(frame, IN_SCALE_FACTOR,
                     new Size(IN_WIDTH, IN_HEIGHT),
                     new Scalar(MEAN_VAL, MEAN_VAL, MEAN_VAL), false);
             net.setInput(blob);
             Mat detections = net.forward();
-            int cols = frame_ret.cols();
-            int rows = frame_ret.rows();
+            int cols = frame.cols();
+            int rows = frame.rows();
             Size cropSize;
             if ((float)cols / rows > WH_RATIO) {
                 cropSize = new Size(rows * WH_RATIO, rows);
@@ -166,7 +161,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
             int y2 = (int)(y1 + cropSize.height);
             int x1 = (int)(cols - cropSize.width) / 2;
             int x2 = (int)(x1 + cropSize.width);
-            Mat subFrame = frame_ret.submat(y1, y2, x1, x2);
+            Mat subFrame = frame.submat(y1, y2, x1, x2);
             cols = subFrame.cols();
             rows = subFrame.rows();
             detections = detections.reshape(1, (int)detections.total() / 7);
@@ -218,20 +213,13 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                 }
             }
             //return frame;
-
-            frame.release();
-            frame_t.release();
             counter = 0;
         }
 
         else {
-            frame.release();
-            frame_t.release();
             counter++;
         }
-        frame.release();
-        frame_t.release();
-        return frame_ret;
+        return frame;
     }
 
     // Upload file to storage and return a path.

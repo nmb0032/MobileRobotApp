@@ -39,6 +39,7 @@ import com.example.robovision.ai.calibration.CalibrationResult;
 import com.example.robovision.ai.calibration.CameraCalibrator;
 
 import com.example.robovision.R;
+import com.example.robovision.ai.utils.ImageUtils;
 import com.example.robovision.bluetooth.BTBaseApplication;
 import com.example.robovision.bluetooth.ConnectedThread;
 
@@ -215,10 +216,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), mRgba, Imgproc.COLOR_RGB2RGBA); //apply distortion matrix and Convert from BGR to RGBA
         // End of distortion application//
         //TODO: Fix the null pointer exception
-        Size size = mRgba.size();
-        Core.transpose(mRgba, mRgba); //for actual phone
-        Core.flip(mRgba, mRgba, 1);
-        Imgproc.resize(mRgba, mRgba, size);
+        ImageUtils.transpose(mRgba); /** Transpose for phone **/
 
         if (mIsColorSelected) {
             MatOfPoint target = null;
@@ -229,6 +227,9 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
             if(contours.size() > 0){
                 target = mDetector.getTopTarget();
                 ColorBlobDetector.boxTarget(mRgba, target);
+                Moments m = Imgproc.moments(target);
+                int center_x = (int)(m.m10/m.m00);
+                mDriver.drawAngle(mRgba, center_x);
             }
 
             Mat colorLabel = mRgba.submat(4, 68, 4, 68);
