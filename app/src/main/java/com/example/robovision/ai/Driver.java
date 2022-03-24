@@ -52,10 +52,7 @@ public class Driver {
     }
 
     public void drawAngle(Mat img, int target){
-        int center_x = (int) img.width() / 2;
-        int center_y = (int) img.height() / 2;
         int heading = calcHeading(target);
-        Imgproc.circle(img, new Point(center_x,center_y), 1, new Scalar(0,255,0), 1);
         Imgproc.putText(img, "Heading: " + heading,
                         new Point((int) img.width() * .8, (int) img.height() * .1),
                 1, 1, new Scalar(0, 255, 0));

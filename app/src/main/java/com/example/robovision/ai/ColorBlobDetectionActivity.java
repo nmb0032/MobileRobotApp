@@ -29,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
+import android.widget.Button;
 import android.widget.Toast;
 
 //Importing calibration package
@@ -48,6 +49,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     private static final String  TAG              = "OCVSample::Activity";
     private static final int     DRIVER_DELAY     = 180;
 
+    private Button               mSettingsBtn;
     private CameraCalibrator     mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender  mOnCameraFrameRender; //Holds calibrator
     private ConnectedThread      mBluetooth;
@@ -61,6 +63,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     private Size                 SPECTRUM_SIZE;
     private Scalar               CONTOUR_COLOR;
     private int                  mCount;
+
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -95,12 +98,13 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.color_blob_detection_surface_view);
-
         driverSetup();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+
+
     }
 
     @Override
