@@ -13,9 +13,9 @@ import org.opencv.core.Scalar;
 
 public class Driver {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = "AI:Driver";
-    private static final int HEADING_THRESH = 2;
+    private static final int HEADING_THRESH = 3;
 
     private float mFOV;
     private float mFOV_Ratio;
@@ -37,13 +37,13 @@ public class Driver {
 
     public void FTL(int x, int y, ConnectedThread bluetooth){
         //Given x coordinate of object calculate angle to turn
-        int distance_from_center = x - mCenter;
+        int distance_from_center = -1 * (x - mCenter);
         int heading = (int)(distance_from_center / mFOV_Ratio); //should give heading
         if(Math.abs(heading) >= HEADING_THRESH){
             Log.i(TAG, "Heading within threshold, going to: " + heading);
-            execute(bluetooth, heading, 300);
+            execute(bluetooth, heading, 50);
         }else{
-            Log.i(TAG, "Heading within threshold continuing movement");
+            Log.i(TAG, "Heading within threshold continuing forward");
         }
 
     }
@@ -57,7 +57,7 @@ public class Driver {
     }
 
     public static void exit(ConnectedThread bluetooth){
-        if(!DEBUG) bluetooth.write(";000#000#"); //Exits FTL activity
+        if(!DEBUG) bluetooth.write(";000#+000#"); //Exits FTL activity
         Log.i(TAG, "Exiting FTL activity");
     }
 

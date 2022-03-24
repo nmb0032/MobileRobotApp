@@ -202,7 +202,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                         int area_frame = length_frame * width_frame; //assuming this is camera frame area.
                         int area = length * width;
 
-                        if (area > area_frame) {
+                        if (area > area_frame * .75) {
                             Driver.pause(mBluetooth); //Pause robot
                         } else {
                             int xCenter = (xLeftBottom + xRightTop) / 2;

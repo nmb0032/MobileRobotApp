@@ -8,8 +8,11 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 public class ColorBlobDetector {
     // Lower and Upper bounds for range checking in HSV color space
@@ -105,4 +108,22 @@ public class ColorBlobDetector {
     public List<MatOfPoint> getContours() {
         return mContours;
     }
+
+    public MatOfPoint getTopTarget() {
+        MatOfPoint target = mContours.get(0); //arbitrary
+        for(MatOfPoint contour: mContours){
+            if(Imgproc.contourArea(contour) > Imgproc.contourArea(target)) target = contour;
+        }
+        return target;
+    }
+
+    public static void boxTarget(Mat frame, MatOfPoint target){
+        Scalar color = new Scalar(0,255,0);
+        Rect rect = Imgproc.boundingRect(target);
+        Point pt1 = new Point(rect.x, rect.y);
+        Point pt2 = new Point((rect.x + rect.width), (rect.y + rect.height));
+        Imgproc.rectangle(frame, pt1, pt2, color, 5, 1, 0);
+    }
+
+
 }
