@@ -22,4 +22,6 @@
     <string name="Forward">Forward</string>
     <string name="Left">Left</string>
     <string name="Right">Right</string>
+    <string name="btn_VC0">Voice Control 1</string>
+    <string name="btn_VC1">Voice Control 2</string>
 </resources>

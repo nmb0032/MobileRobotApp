@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,13 +18,15 @@ import com.example.robovision.bluetooth.BluetoothActivity;
 import com.example.robovision.ai.calibration.CameraCalibrationActivity;
 import com.example.robovision.ai.calibration.CalibrationResult;
 
-
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "RV::Main";
 
     private Button mCalibrationButton;
     private Button mBTActivityBtn;
     private Button mOpenCVActivityBtn;
+
+    private Button mVoiceControl0;
+    private Button mVoiceControl1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
-        mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
+        mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn); 
+      
+        //Voice control buttons
+        mVoiceControl0 = (Button)findViewById(R.id.Voice_btn0);
+        mVoiceControl1 = (Button)findViewById(R.id.Voice_btn1);
+        
 
         //Check if calibration exists
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
@@ -59,6 +67,20 @@ public class MainActivity extends AppCompatActivity {
                 openOpenCVActivity();
             }
         });
+      
+        mVoiceControl0.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VoiceControl();
+                }
+            });
+
+        mVoiceControl1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VoiceControl_Alt();
+                }
+            });
 
 
     }
@@ -104,4 +126,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ColorBlobDetectionActivity.class);
         startActivity(intent);
     }
+
+    private void VoiceControl() {
+        Intent intent = new Intent(getApplicationContext(),VoiceControlActivity.class);
+        startActivity(intent);
+    }
+    private void VoiceControl_Alt() {
+        Intent intent = new Intent(getApplicationContext(),VoiceControlActivityAlt.class);
+        startActivity(intent);
+    }
+
 }
