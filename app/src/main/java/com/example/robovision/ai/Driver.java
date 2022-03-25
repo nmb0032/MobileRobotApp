@@ -43,7 +43,7 @@ public class Driver {
         //Given x coordinate of object calculate angle to turn
         int heading = calcHeading(x);
         if(Math.abs(heading) >= HEADING_THRESH){
-            Log.i(TAG, "Heading within threshold, going to: " + heading);
+            Log.i(TAG, "Heading adjustment, going to: " + heading);
             execute(bluetooth, heading, 50);
         }else{
             Log.i(TAG, "Heading within threshold continuing forward");

@@ -46,10 +46,10 @@ import com.example.robovision.bluetooth.ConnectedThread;
 
 
 public class ColorBlobDetectionActivity extends CameraActivity implements OnTouchListener, CvCameraViewListener2 {
-    private static final String  TAG              = "OCVSample::Activity";
-    private static final int     DRIVER_DELAY     = 180;
+    private static final String  TAG              = "AI:ColorFilterActivity";
+    private static final int     DRIVER_DELAY     = 120;
+    private static final double  AREA_THRESH      = .65;
 
-    private Button               mSettingsBtn;
     private CameraCalibrator     mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender  mOnCameraFrameRender; //Holds calibrator
     private ConnectedThread      mBluetooth;
@@ -244,12 +244,12 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
 
             /** Implementing driving logic **/
             if(mCount == DRIVER_DELAY){
-                if(target != null) {
+                if(target != null && Imgproc.contourArea(target) < mRgba.total() * AREA_THRESH) {
                     Moments m = Imgproc.moments(target);
                     int center_x = (int)(m.m10/m.m00);
                     int center_y = (int)(m.m01/m.m00);
                     mDriver.FTL(center_x,center_y,mBluetooth);
-                }
+                } else Driver.pause(mBluetooth);
                 mCount = 0;
             } else mCount++;
         }
