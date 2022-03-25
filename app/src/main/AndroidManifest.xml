@@ -88,10 +88,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VoiceControlActivityAlt"
-            android:theme="@style/Theme.RoboVision"
-            android:exported="false" />
-        <activity
             android:name=".VoiceControlActivity"
             android:theme="@style/Theme.RoboVision"
             android:exported="true">

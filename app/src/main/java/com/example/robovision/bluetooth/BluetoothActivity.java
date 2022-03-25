@@ -48,6 +48,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private Button mShowPairedDevices;
     private Button mDiscoverNewDevices;
     private Button mRemoteControl;
+    private Button mVoiceControl;
     private Set<BluetoothDevice> mPairedDevices;
     private ArrayAdapter<String> mBluetoothArrayAdapter;
     private ListView mDevicesListView;
@@ -81,6 +82,7 @@ public class BluetoothActivity extends AppCompatActivity {
         mShowPairedDevices  = (Button)findViewById(R.id.PairedBtn);
         mDiscoverNewDevices = (Button)findViewById(R.id.discover);
         mRemoteControl      = (Button)findViewById(R.id.remote);
+        mVoiceControl       = (Button)findViewById(R.id.VoiceControl);
         mTestBit            = (CheckBox)findViewById(R.id.checkboxTestBit);
 
         mBluetoothArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1); //Getting list structure for UI devicelist view
@@ -189,6 +191,14 @@ public class BluetoothActivity extends AppCompatActivity {
                 public void onClick(View v) { remoteControl();}
             });
 
+            /**
+             * Sets click functionality for voice control activity
+             */
+            mVoiceControl.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {VoiceControl();}
+            });
+
         }
     }
 
@@ -249,6 +259,11 @@ public class BluetoothActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void VoiceControl(){
+        Intent intent = new Intent(getApplicationContext(), VoiceControl.class);
+        startActivity(intent);
+    }
+
     final BroadcastReceiver blReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -297,7 +312,7 @@ public class BluetoothActivity extends AppCompatActivity {
          */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            
+
             if(!mBluetoothAdapter.isEnabled()) {
                 Toast.makeText(getBaseContext(), "Please Enable Bluetooth", Toast.LENGTH_SHORT).show();
             }
@@ -355,7 +370,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
                 }
             }.start();
-            
+
         }
     };
 

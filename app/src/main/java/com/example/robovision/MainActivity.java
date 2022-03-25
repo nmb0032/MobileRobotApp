@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private Button mBTActivityBtn;
     private Button mOpenCVActivityBtn;
 
-    private Button mVoiceControl0;
-    private Button mVoiceControl1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
         mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn); 
-      
-        //Voice control buttons
-        mVoiceControl0 = (Button)findViewById(R.id.Voice_btn0);
-        mVoiceControl1 = (Button)findViewById(R.id.Voice_btn1);
+
         
 
         //Check if calibration exists
@@ -67,20 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 openOpenCVActivity();
             }
         });
-      
-        mVoiceControl0.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    VoiceControl();
-                }
-            });
-
-        mVoiceControl1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    VoiceControl_Alt();
-                }
-            });
 
 
     }
