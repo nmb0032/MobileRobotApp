@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.robovision.R;
 import com.example.robovision.RemoteControl;
+import com.example.robovision.VoiceControlActivity;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -82,7 +83,7 @@ public class BluetoothActivity extends AppCompatActivity {
         mShowPairedDevices  = (Button)findViewById(R.id.PairedBtn);
         mDiscoverNewDevices = (Button)findViewById(R.id.discover);
         mRemoteControl      = (Button)findViewById(R.id.remote);
-        mVoiceControl       = (Button)findViewById(R.id.VoiceControl);
+        mVoiceControl       = (Button)findViewById(R.id.voice_control);
         mTestBit            = (CheckBox)findViewById(R.id.checkboxTestBit);
 
         mBluetoothArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1); //Getting list structure for UI devicelist view
@@ -260,7 +261,7 @@ public class BluetoothActivity extends AppCompatActivity {
     }
 
     private void VoiceControl(){
-        Intent intent = new Intent(getApplicationContext(), VoiceControl.class);
+        Intent intent = new Intent(getApplicationContext(), VoiceControlActivity.class);
         startActivity(intent);
     }
 

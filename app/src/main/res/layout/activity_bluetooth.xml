@@ -51,7 +51,7 @@
                 android:layout_weight="0.9"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Read Buffer" />
+                android:text="@string/read_buffer" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +65,7 @@
                 android:layout_weight="0.1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Status:"
+                android:text="@string/status"
                 android:textStyle="bold" />
 
             <TextView
@@ -75,54 +75,56 @@
                 android:layout_weight="0.9"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Bluetooth Status" />
+                android:text="@string/bluetooth_status" />
         </LinearLayout>
 
         <Button
             android:id="@+id/scan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bluetooth ON" />
+            android:text="@string/bluetooth_on" />
 
         <Button
             android:id="@+id/off"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bluetooth OFF" />
+            android:text="@string/bluetooth_off" />
 
         <Button
             android:id="@+id/PairedBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show paired Devices" />
+            android:text="@string/show_paired_devices" />
 
         <Button
             android:id="@+id/discover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Discover New Devices" />
+            android:text="@string/discover_new_devices" />
 
         <Button
             android:id="@+id/remote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Remote Control"
+            android:text="@string/remote_control"
             android:visibility="visible" />
 
         <Button
-            adnroid:id="@+id/VoiceControl"
+            android:id="@+id/voice_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Voice Control"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:text="@string/voice_control" />
 
         <ListView
             android:id="@+id/devicesListView"
             android:layout_width="wrap_content"
             android:layout_height="304dp"
             android:choiceMode="singleChoice" />
+
+
 
     </LinearLayout>
 

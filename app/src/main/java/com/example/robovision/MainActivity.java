@@ -108,13 +108,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void VoiceControl() {
-        Intent intent = new Intent(getApplicationContext(),VoiceControlActivity.class);
-        startActivity(intent);
-    }
-    private void VoiceControl_Alt() {
-        Intent intent = new Intent(getApplicationContext(),VoiceControlActivityAlt.class);
-        startActivity(intent);
-    }
 
 }
