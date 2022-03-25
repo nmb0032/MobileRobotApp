@@ -11,12 +11,16 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
 public class gps extends AppCompatActivity implements LocationListener {
     private double latitude, longitude, altitude,accuracy,speed;
-    TextView txtLatitude, txtLongitude, txtaltitude, txtaccuracy,txtspeed;
+    TextView txtLatitude, txtLongitude,txtaltitude,txtaccuracy,txtspeed,sw_updates1;
+
+    Switch sw_locationupdates;
 
     LocationManager locationManager;
 
@@ -31,6 +35,25 @@ public class gps extends AppCompatActivity implements LocationListener {
         txtaltitude = (TextView) findViewById(R.id.txtalt);
         txtaccuracy = (TextView) findViewById(R.id.txtacc);
         txtspeed = (TextView) findViewById(R.id.txtsp);
+        sw_updates1 = (TextView) findViewById(R.id.sw_updates1);
+        sw_locationupdates = findViewById(R.id.sw_locationupdates);
+        sw_locationupdates.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (sw_locationupdates.isChecked()){
+                    startLocationupdates();                 //on
+                }
+                else{
+                    stopLocationupdates();                 //off
+
+                }
+            }
+
+
+        });
+
+
+
 
         locationManager = (LocationManager)  getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(gps.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -42,6 +65,18 @@ public class gps extends AppCompatActivity implements LocationListener {
 
 
     }
+
+    private void stopLocationupdates() {
+        sw_updates1.setText("GPS off");
+
+
+    }
+
+    private void startLocationupdates() {
+        sw_updates1.setText("GPS on");
+
+    }
+    
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -60,9 +95,11 @@ public class gps extends AppCompatActivity implements LocationListener {
         txtspeed.setText(String.valueOf(speed));
 
         //save battery
-        locationManager.removeUpdates(this);
+        //locationManager.removeUpdates(this);
 
     }
+
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
