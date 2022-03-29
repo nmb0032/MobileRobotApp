@@ -1,6 +1,5 @@
 <resources>
     <string name="object_prompt">Choose an object to detect</string>
-
     <string name="app_name">RoboVision</string>
     <string name="btn_filter">Filter</string>
     <string name="action_calibrate">Calibrate</string>
@@ -25,28 +24,4 @@
     <string name="Left">Left</string>
     <string name="Right">Right</string>
     <string name="select_object_to_detect">Select object to detect</string>
-
-    <string-array name="class_arrays">
-        <item>background</item>
-        <item>aeroplane</item>
-        <item>bicycle</item>
-        <item>bird</item>
-        <item>boat</item>
-        <item>bottle</item>
-        <item>bus</item>
-        <item>car</item>
-        <item>cat</item>
-        <item>chair</item>
-        <item>cow</item>
-        <item>diningtable</item>
-        <item>dog</item>
-        <item>horse</item>
-        <item>motorbike</item>
-        <item>person</item>
-        <item>pottedplant</item>
-        <item>sheep</item>
-        <item>sofa</item>
-        <item>train</item>
-        <item>tvmonitor</item>
-    </string-array>
 </resources>

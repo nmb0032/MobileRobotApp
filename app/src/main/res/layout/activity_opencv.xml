@@ -7,14 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ai.OpenCVActivity">
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/class_arrays"
-        android:prompt="@string/object_prompt" />
-
-
     <Button
         android:id="@+id/btnSelect_class"
         android:layout_width="wrap_content"

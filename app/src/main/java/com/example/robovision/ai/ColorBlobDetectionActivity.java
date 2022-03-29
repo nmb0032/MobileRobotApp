@@ -245,10 +245,8 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
             /** Implementing driving logic **/
             if(mCount == DRIVER_DELAY){
                 if(target != null && Imgproc.contourArea(target) < mRgba.total() * AREA_THRESH) {
-                    Moments m = Imgproc.moments(target);
-                    int center_x = (int)(m.m10/m.m00);
-                    int center_y = (int)(m.m01/m.m00);
-                    mDriver.FTL(center_x,center_y,mBluetooth);
+                    int[] center = ImageUtils.findCenter(target);
+                    mDriver.FTL(center[0],center[1],mBluetooth);
                 } else Driver.pause(mBluetooth);
                 mCount = 0;
             } else mCount++;
