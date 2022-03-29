@@ -5,7 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OpenCVActivity">
+    tools:context=".ai.OpenCVActivity">
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/class_arrays"
+        android:prompt="@string/object_prompt" />
+
+
+    <Button
+        android:id="@+id/btnSelect_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_object_to_detect" />
 
     <org.opencv.android.JavaCameraView
         android:id="@+id/my_camera_view"

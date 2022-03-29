@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.robovision.MainActivity;
@@ -46,11 +48,16 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static final String TAG = "AI:MobileNetActivity";
     private static final int    DETECTION_DELAY = 30;
     private final int           PERMISSIONS_READ_CAMERA = 1;
+    private Spinner spinner1;  //for drop down select
+    private Button btnSelect_class;             //for drop down select
+    private String select_class = "person";  //person by default but can be changed later.
 
     private CameraCalibrator    mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender mOnCameraFrameRender; //Holds calibrator
@@ -91,6 +98,8 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_opencv);
+        addListenerOnButton();  //for drop down select
+        addListenerOnSpinnerItemSelection(); //for drop down select
         driverSetup();
         cameraViewSetup();
         String msg = OpenCVLoader.initDebug() ? "OpenCV opened successfully" : "Unable to load OpenCV";
@@ -189,7 +198,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
                     Imgproc.putText(subFrame, label, new Point(xLeftBottom, yLeftBottom),
                             Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(0, 0, 0));
 
-                    if (classNames[classId].equals("person")) {
+                    if (classNames[classId].equals(select_class)) {
                         int length = xRightTop - xLeftBottom;
                         int width = yRightTop - yLeftBottom;
                         int length_frame = x2 - x1;
@@ -357,5 +366,37 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         javaCameraView = (JavaCameraView)findViewById(R.id.my_camera_view);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(OpenCVActivity.this);
+    }
+
+
+    public void addListenerOnSpinnerItemSelection(){
+
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+    //get the selected dropdown list value
+    public void addListenerOnButton() {
+
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+
+        btnSelect_class = (Button) findViewById(R.id.btnSelect_class);
+
+        btnSelect_class.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                select_class = String.valueOf(spinner1.getSelectedItem());
+
+                Toast.makeText(OpenCVActivity.this,
+                        "OnClickListener : " +
+                                "\nSpinner 1 : " + String.valueOf(spinner1.getSelectedItem()),
+                        Toast.LENGTH_SHORT).show();
+
+
+            }
+
+        });
+
     }
 }
