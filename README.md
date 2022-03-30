@@ -2,7 +2,7 @@
 
 ## Key Functionality
 
- ### Voice Control
+   ### Voice Control
  
  ### Bluetooth Connectivity
  
@@ -10,7 +10,7 @@
  
  ### Follow The Leader (FTL) Capabilities
  
-## Arduino Code Base
+## [Arduino Code Base](https://github.com/jdg072/Zumo_Robot_Code)
 
 
 ## Design Process
