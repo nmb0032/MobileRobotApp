@@ -14,15 +14,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
-public class gps extends AppCompatActivity implements LocationListener {
+public class gps<mDatabase> extends AppCompatActivity implements LocationListener {
     private double latitude, longitude, altitude,accuracy,speed;
     TextView txtLatitude, txtLongitude,txtaltitude,txtaccuracy,txtspeed,sw_updates1;
 
     Switch sw_locationupdates;
 
     LocationManager locationManager;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("message");
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +75,13 @@ public class gps extends AppCompatActivity implements LocationListener {
         {
             ActivityCompat.requestPermissions(gps.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0, this);
+
+
 
 
     }
+
 
     private void stopLocationupdates() {
         sw_updates1.setText("GPS off");
@@ -96,8 +113,30 @@ public class gps extends AppCompatActivity implements LocationListener {
 
         //save battery
         //locationManager.removeUpdates(this);
+        String msg ="GPS( " +
+                Double.toString(location.getLatitude()) + "," +Double.toString(location.getLongitude())
+                + ")";
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
+        gpsfirebase fb = new gpsfirebase(
+                location.getLatitude(),
+                location.getLongitude()
+        );
+        FirebaseDatabase.getInstance().getReference("GPS location")
+                .setValue(fb).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(gps.this, "Location Updated", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(gps.this, "Unable to Update the location", Toast.LENGTH_SHORT).show();
+                }
+            }
+       });
     }
+
+
 
 
 
@@ -116,3 +155,4 @@ public class gps extends AppCompatActivity implements LocationListener {
 
     }
 }
+
