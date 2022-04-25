@@ -49,22 +49,22 @@ public class gps<mDatabase> extends AppCompatActivity implements LocationListene
         txtaltitude = (TextView) findViewById(R.id.txtalt);
         txtaccuracy = (TextView) findViewById(R.id.txtacc);
         txtspeed = (TextView) findViewById(R.id.txtsp);
-        sw_updates1 = (TextView) findViewById(R.id.sw_updates1);
-        sw_locationupdates = findViewById(R.id.sw_locationupdates);
-        sw_locationupdates.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if (sw_locationupdates.isChecked()){
-                    startLocationupdates();                 //on
-                }
-                else{
-                    stopLocationupdates();                 //off
+        //sw_updates1 = (TextView) findViewById(R.id.sw_updates1);
+        //sw_locationupdates = findViewById(R.id.sw_locationupdates);
+      //  sw_locationupdates.setOnClickListener(new View.OnClickListener(){
+       //     @Override
+        //    public void onClick(View v) {
+         //       if (sw_locationupdates.isChecked()){
+         //           startLocationupdates();                 //on
+         //       }
+         //       else{
+         //           stopLocationupdates();                 //off
 
-                }
-            }
+         //       }
+         //   }
 
 
-        });
+        //});
 
 
 
@@ -83,16 +83,16 @@ public class gps<mDatabase> extends AppCompatActivity implements LocationListene
     }
 
 
-    private void stopLocationupdates() {
-        sw_updates1.setText("GPS off");
+    //private void stopLocationupdates() {
+    //    sw_updates1.setText("GPS off");
 
 
-    }
+    //}
 
-    private void startLocationupdates() {
-        sw_updates1.setText("GPS on");
+    //private void startLocationupdates() {
+    //    sw_updates1.setText("GPS on");
 
-    }
+    //}
     
 
     @Override
