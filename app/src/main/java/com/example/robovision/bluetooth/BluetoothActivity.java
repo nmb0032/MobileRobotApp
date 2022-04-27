@@ -117,6 +117,7 @@ public class BluetoothActivity extends AppCompatActivity {
                   if(msg.arg1 == 1) {
                       mBluetoothStatus.setText("Connected to Device: " + msg.obj);
                       mRemoteControl.setEnabled(true); //Enable remote control button for remote control activity
+                      mVoiceControl.setEnabled(true); //Enable remote control button for voice control activity
                   }
                   else mBluetoothStatus.setText("Connection Failed");
               }
