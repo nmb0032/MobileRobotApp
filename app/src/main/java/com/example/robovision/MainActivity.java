@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
+    private Button mGPSBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //button
-        button=findViewById(R.id.gps);
+        mGPSBtn=findViewById(R.id.gps);
 
-          button.setOnClickListener(new View.OnClickListener() {
+          mGPSBtn.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
 
