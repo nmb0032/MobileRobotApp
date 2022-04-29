@@ -35,4 +35,9 @@
     <string name="bluetooth_status">Bluetooth Status</string>
     <string name="status">Status:</string>
     <string name="read_buffer">Read Buffer</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="gps">GPS</string>
+    <string name="lat">LAT</string>
+    <string name="lon">LON</string>
 </resources>

@@ -37,5 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mobile Net" />
+
+        <Button
+            android:id="@+id/gps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gps"
+            android:visibility="visible"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
