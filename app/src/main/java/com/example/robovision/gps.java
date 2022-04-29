@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -96,7 +97,7 @@ public class gps<mDatabase> extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-
+        Log.d("GPS","Location changed, obtaining new coordinates");
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         altitude = location.getAltitude();
