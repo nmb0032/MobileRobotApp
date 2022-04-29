@@ -37,7 +37,6 @@ public class gps<mDatabase> extends AppCompatActivity implements LocationListene
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
