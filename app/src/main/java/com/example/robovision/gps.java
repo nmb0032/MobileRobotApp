@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class gps<mDatabase> extends AppCompatActivity implements LocationListener {
     private double latitude, longitude, altitude,accuracy,speed;
-    TextView txtLatitude, txtLongitude,txtaltitude,txtaccuracy,txtspeed,sw_updates1;
+    private TextView txtLatitude, txtLongitude,txtaltitude,txtaccuracy,txtspeed,sw_updates1;
 
     Switch sw_locationupdates;
 

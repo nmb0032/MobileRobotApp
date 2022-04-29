@@ -145,12 +145,6 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-        //Creating OpenCV instance
-        if (!OpenCVLoader.initDebug())
-            Log.e("OpenCV", "unable to load OpenCV");
-        else
-            Log.d("OpenCV", "OpenCV opened successfully");
-
     private void calibrateDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage("Your Camera Must be calibrated to use our AI technology\n" +
