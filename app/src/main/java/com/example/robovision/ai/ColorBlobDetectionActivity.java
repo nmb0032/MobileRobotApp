@@ -18,6 +18,7 @@ import org.opencv.core.Size;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
+import android.widget.Button;
 import android.widget.Toast;
 
 //Importing calibration package
@@ -38,13 +40,20 @@ import com.example.robovision.ai.calibration.CalibrationResult;
 import com.example.robovision.ai.calibration.CameraCalibrator;
 
 import com.example.robovision.R;
+import com.example.robovision.ai.utils.ImageUtils;
+import com.example.robovision.bluetooth.BTBaseApplication;
+import com.example.robovision.bluetooth.ConnectedThread;
 
 
 public class ColorBlobDetectionActivity extends CameraActivity implements OnTouchListener, CvCameraViewListener2 {
-    private static final String  TAG              = "OCVSample::Activity";
+    private static final String  TAG              = "AI:ColorFilterActivity";
+    private static final int     DRIVER_DELAY     = 120;
+    private static final double  AREA_THRESH      = .65;
 
     private CameraCalibrator     mCameraCalibrator; //Calibrator for distortion matrix
     private OnCameraFrameRender  mOnCameraFrameRender; //Holds calibrator
+    private ConnectedThread      mBluetooth;
+    private Driver               mDriver;
     private boolean              mIsColorSelected = false;
     private Mat                  mRgba;
     private Scalar               mBlobColorRgba;
@@ -53,6 +62,8 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     private Mat                  mSpectrum;
     private Size                 SPECTRUM_SIZE;
     private Scalar               CONTOUR_COLOR;
+    private int                  mCount;
+
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -87,10 +98,13 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.color_blob_detection_surface_view);
+        driverSetup();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+
+
     }
 
     @Override
@@ -127,6 +141,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
 
     public void onCameraViewStarted(int width, int height) {
         //Setting Distortion matrix
+        mDriver.setup(width);
         mCameraCalibrator = new CameraCalibrator(width, height, false);
         if(!CalibrationResult.tryLoad(this, mCameraCalibrator.getCameraMatrix(), mCameraCalibrator.getDistortionCoefficients(), getBaseContext())){
             Log.e(TAG, "Camera not calibrated, returning home");
@@ -146,6 +161,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     }
 
     public void onCameraViewStopped() {
+        Driver.exit(mBluetooth);
         mRgba.release();
     }
 
@@ -204,18 +220,36 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         Imgproc.cvtColor(mOnCameraFrameRender.render(inputFrame), mRgba, Imgproc.COLOR_RGB2RGBA); //apply distortion matrix and Convert from BGR to RGBA
         // End of distortion application//
         //TODO: Fix the null pointer exception
+        ImageUtils.transpose(mRgba); /** Transpose for phone **/
 
         if (mIsColorSelected) {
+            MatOfPoint target = null;
             mDetector.process(mRgba);
             List<MatOfPoint> contours = mDetector.getContours();
             Log.i(TAG, "Contours count: " + contours.size());
-            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+            //Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR); Draws each contour
+            if(contours.size() > 0){
+                target = mDetector.getTopTarget();
+                ColorBlobDetector.boxTarget(mRgba, target);
+                Moments m = Imgproc.moments(target);
+                int center_x = (int)(m.m10/m.m00);
+                mDriver.drawAngle(mRgba, center_x);
+            }
 
             Mat colorLabel = mRgba.submat(4, 68, 4, 68);
             colorLabel.setTo(mBlobColorRgba);
 
             Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
             mSpectrum.copyTo(spectrumLabel);
+
+            /** Implementing driving logic **/
+            if(mCount == DRIVER_DELAY){
+                if(target != null && Imgproc.contourArea(target) < mRgba.total() * AREA_THRESH) {
+                    int[] center = ImageUtils.findCenter(target);
+                    mDriver.FTL(center[0],center[1],mBluetooth);
+                } else Driver.pause(mBluetooth);
+                mCount = 0;
+            } else mCount++;
         }
 
         return mRgba;
@@ -232,5 +266,13 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
     public void mainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void driverSetup(){
+        mCount = 0;
+        mDriver = new Driver(0); //set FOV for driver before use
+        BTBaseApplication app = (BTBaseApplication)getApplication(); //getting application varaibles
+        mBluetooth = app.bluetoothThread;
+        Driver.start(mBluetooth); //starting FTL command
     }
 }

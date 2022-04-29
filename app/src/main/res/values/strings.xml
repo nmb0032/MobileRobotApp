@@ -1,4 +1,5 @@
 <resources>
+    <string name="object_prompt">Choose an object to detect</string>
     <string name="app_name">RoboVision</string>
     <string name="btn_filter">Filter</string>
     <string name="action_calibrate">Calibrate</string>
@@ -22,6 +23,7 @@
     <string name="Forward">Forward</string>
     <string name="Left">Left</string>
     <string name="Right">Right</string>
+    <string name="select_object_to_detect">Select object to detect</string>
     <string name="btn_VC0">Voice Control 1</string>
     <string name="btn_VC1">Voice Control 2</string>
     <string name="voice_control">Voice Control</string>

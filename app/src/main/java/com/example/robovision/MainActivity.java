@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,18 +12,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.robovision.ai.OpenCVActivity;
 import com.example.robovision.ai.ColorBlobDetectionActivity;
+import com.example.robovision.bluetooth.BTBaseApplication;
 import com.example.robovision.bluetooth.BluetoothActivity;
 import com.example.robovision.ai.calibration.CameraCalibrationActivity;
 import com.example.robovision.ai.calibration.CalibrationResult;
 
+
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "RV::Main";
+
+    private BTBaseApplication mApplication;
 
     private Button mCalibrationButton;
     private Button mBTActivityBtn;
     private Button mOpenCVActivityBtn;
-
+    private Button mMobileNetBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
-        mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn); 
+        mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
+        mMobileNetBtn = (Button)findViewById(R.id.mobilenet_btn);
 
-        
+        mApplication = (BTBaseApplication)getApplication();
 
-        //Check if calibration exists
+        if(mApplication.bluetoothThread == null) bluetoothDialog();
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
 
          
@@ -63,7 +68,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mMobileNetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMobileNetActivity();
+            }
+        });
+    }
 
+    private void calibrate(){
+        Intent intent = new Intent(this, CameraCalibrationActivity.class);
+        startActivity(intent);
+    }
+
+    private void openBluetoothActivity(){
+        Intent intent = new Intent(this, BluetoothActivity.class);
+        startActivity(intent);
+    }
+
+    private void openOpenCVActivity() {
+        Intent intent = new Intent(this, ColorBlobDetectionActivity.class);
+        startActivity(intent);
+    }
+
+    private void openMobileNetActivity() {
+        Intent intent = new Intent(this, OpenCVActivity.class);
+        startActivity(intent);
+    }
+
+    private void bluetoothDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("The Robot must be connected through bluetooth to use any modes.\n" +
+                "Would you like to connect to bluetooth now?");
+        dialog.setTitle("Bluetooth Not Connected!");
+        dialog.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i(TAG,"User clicked yes");
+                        openBluetoothActivity();
+                    }
+                });
+        dialog.setNegativeButton("Ignore",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Disable AI functionality
+                        Log.i(TAG, "AI abilities disabled");
+                        //TODO: add disable buttons function
+                        Toast.makeText(getApplicationContext(), "AI abilities disabled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
 
     private void calibrateDialog(){
@@ -92,21 +149,4 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
     }
-
-    private void calibrate(){
-        Intent intent = new Intent(this, CameraCalibrationActivity.class);
-        startActivity(intent);
-    }
-
-    private void openBluetoothActivity(){
-        Intent intent = new Intent(this, BluetoothActivity.class);
-        startActivity(intent);
-    }
-
-    private void openOpenCVActivity() {
-        Intent intent = new Intent(this, ColorBlobDetectionActivity.class);
-        startActivity(intent);
-    }
-
-
 }
