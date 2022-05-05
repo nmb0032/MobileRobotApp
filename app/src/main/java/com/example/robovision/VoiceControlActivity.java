@@ -52,6 +52,9 @@ public class VoiceControlActivity extends Activity implements
     private final static String RIGHT   = "3";
     private final static String LEFT    = "4";
     private final static String STOP    = "0";
+    private final static String ENTER   = "c";
+    private final static String EXIT    = ";";
+
 
     private final Map<String, String> mCommands = new HashMap<String, String>();
 
@@ -123,6 +126,8 @@ public class VoiceControlActivity extends Activity implements
 
         setRecogniserIntent();
         speech.startListening(recognizerIntent);
+
+        Enter();
     }
 
     @Override
@@ -164,6 +169,10 @@ public class VoiceControlActivity extends Activity implements
         if (speech != null) {
             speech.destroy();
         }
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(EXIT);
+        }
+        Log.d("VoiceControl", "Exiting VC mode");
     }
 
 
@@ -314,4 +323,12 @@ public class VoiceControlActivity extends Activity implements
         long delay = Long.parseLong(time) * 1000L;
         timer.schedule(stopTask,delay);
     }
+
+    private void Enter(){
+        Log.d("VoiceControl", "Entering VC Mode");
+        if(mApplication.bluetoothThread!=null){
+            mApplication.bluetoothThread.write(ENTER);
+        }
+    }
+
 }

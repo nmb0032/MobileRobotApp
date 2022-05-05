@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.robovision.bluetooth.BTBaseApplication;
+import com.example.robovision.bluetooth.ConnectedThread;
 
 public class RemoteControl extends AppCompatActivity {
     private final static String TAG = "Remote";
@@ -21,7 +22,7 @@ public class RemoteControl extends AppCompatActivity {
     private final static String RIGHT   = "3";
     private final static String LEFT    = "4";
     private final static String STOP    = "0";
-    private final static String ENTER   = "B";
+    private final static String ENTER   = "b";
     private final static String EXIT    = ";";
 
     //GUI components, contains four direction buttons

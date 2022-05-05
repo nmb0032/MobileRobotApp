@@ -13,7 +13,7 @@ import org.opencv.core.Scalar;
  * @author Nicholas Belvin
  */
 public class Driver {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = "AI:Driver";
     private static final int HEADING_THRESH = 3;
 
@@ -109,7 +109,7 @@ public class Driver {
 
     /**
      * Builds a string according to the FTL protocol as specified in our Mobile Robot Document
-     * for more information reach out to Jack Glending
+     * for more information reach out to Jack Glendinning
      * @param heading A heading relative to the center of the camera being 0 left - right +
      * @param speed Value between -400 and 400, backwards is -, forward is +
      * @return The Built String object
