@@ -51,6 +51,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:ignore="CoarseFineLocation" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
     <application
         android:name=".bluetooth.BTBaseApplication"
         android:allowBackup="true"
@@ -61,6 +64,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:targetApi="31">
+<<<<<<< HEAD
          <activity
             android:name=".RemoteControl"
              android:theme="@style/Theme.RoboVision"
@@ -106,6 +110,9 @@
             android:name=".gps"
             android:theme="@style/Theme.RoboVision"
             android:exported="true" />
+=======
+        <activity android:name=".OpenCVActivity"></activity>
+>>>>>>> MobileNet
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.RoboVision"

@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
+<<<<<<< HEAD
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,6 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Calibrate" />
+=======
+    <Button
+        android:id="@+id/page1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OpenCV Edge Detection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> MobileNet
 
         <Button
             android:id="@+id/opencv_btn"
