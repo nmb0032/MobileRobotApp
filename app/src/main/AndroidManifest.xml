@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <queries>
         <intent>
             <action android:name="android.speech.RecognitionService" />
@@ -78,7 +79,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ai.calibration.CameraCalibrationActivity"
-                  android:exported="true">
+                  android:exported="true"
+                  android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
@@ -92,7 +94,7 @@
         </activity>
         <activity android:name=".ai.OpenCVActivity"
                   android:theme="@style/Theme.RoboVision"
-                  android:screenOrientation="landscape"> <!--Screen orientation-->
+                  android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".VoiceControlActivity"
