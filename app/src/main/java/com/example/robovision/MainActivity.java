@@ -26,15 +26,16 @@ import com.example.robovision.ai.calibration.CalibrationResult;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class
+MainActivity extends AppCompatActivity {
     private final static String TAG = "RV::Main";
 
     private BTBaseApplication mApplication;
 
     private Button mCalibrationButton;
-    private Button mBTActivityBtn;
+    private Button mDriveBtn;
     private Button mOpenCVActivityBtn;
-    private Button mMobileNetBtn;
+    private Button mServerBtn;
 
     private Button mGPSBtn;
 
@@ -45,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
-        mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
+        mDriveBtn = (Button)findViewById(R.id.drive_btn);
         mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
-        mMobileNetBtn = (Button)findViewById(R.id.mobilenet_btn);
+        mServerBtn = (Button)findViewById(R.id.server_btn);
         mGPSBtn=findViewById(R.id.gps);
 
         mApplication = (BTBaseApplication)getApplication();
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
 
 
-        mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
+        mDriveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 openBluetoothActivity();
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMobileNetBtn.setOnClickListener(new View.OnClickListener() {
+        mServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openMobileNetActivity();

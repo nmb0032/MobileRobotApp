@@ -1,6 +1,7 @@
 package com.example.robovision.bluetooth;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -63,68 +64,65 @@ public class BluetoothActivity extends AppCompatActivity {
 
     //BT codes for shared types between bluetooth module
     private final static int REQUEST_ENABLE_BT = 1;
-    public  final static int MESSAGE_READ = 2;
+    public final static int MESSAGE_READ = 2;
     private final static int CONNECTING_STATUS = 3;
 
     //Application class
     private BTBaseApplication mApplication;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //call parent function
         setContentView(R.layout.activity_bluetooth); //sets to bluetooth activity
 
         //Assigning GUI variables initialized above
-        mBluetoothStatus    = (TextView)findViewById(R.id.bluetoothStatus);
-        mReadBuffer         = (TextView)findViewById(R.id.readBuffer);
-        mBluetoothOn        = (Button)findViewById(R.id.scan);
-        mBluetoothOff       = (Button)findViewById(R.id.off);
-        mShowPairedDevices  = (Button)findViewById(R.id.PairedBtn);
-        mDiscoverNewDevices = (Button)findViewById(R.id.discover);
-        mRemoteControl      = (Button)findViewById(R.id.remote);
-        mVoiceControl       = (Button)findViewById(R.id.voice_control);
-        mTestBit            = (CheckBox)findViewById(R.id.checkboxTestBit);
+        mBluetoothStatus = (TextView) findViewById(R.id.bluetoothStatus);
+        mReadBuffer = (TextView) findViewById(R.id.readBuffer);
+        mBluetoothOn = (Button) findViewById(R.id.scan);
+        mBluetoothOff = (Button) findViewById(R.id.off);
+        mShowPairedDevices = (Button) findViewById(R.id.PairedBtn);
+        mDiscoverNewDevices = (Button) findViewById(R.id.discover);
+        mRemoteControl = (Button) findViewById(R.id.remote);
+        mVoiceControl = (Button) findViewById(R.id.voice_control);
+        mTestBit = (CheckBox) findViewById(R.id.checkboxTestBit);
 
-        mBluetoothArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1); //Getting list structure for UI devicelist view
-        mBluetoothAdapter      = BluetoothAdapter.getDefaultAdapter(); //BT radio
+        mBluetoothArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1); //Getting list structure for UI devicelist view
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter(); //BT radio
 
-        mDevicesListView = (ListView)findViewById(R.id.devicesListView);
+        mDevicesListView = (ListView) findViewById(R.id.devicesListView);
         mDevicesListView.setAdapter(mBluetoothArrayAdapter); //setting array adapter to list view UI
         mDevicesListView.setOnItemClickListener(mDeviceClickListener);
 
-        mApplication = (BTBaseApplication)getApplication();//Set application variable
+        mApplication = (BTBaseApplication) getApplication();//Set application variable
 
         //Location permission request
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
 
-
-        mHandler = new Handler(Looper.getMainLooper()){
+        mHandler = new Handler(Looper.getMainLooper()) {
             /**
              * Creating Handler with overridden handleMessage function
              */
-          @Override
-          public void handleMessage(Message msg) {
-              if(msg.what == MESSAGE_READ){ //Message read returned from thread handler means a message was transmitted to phone
-                  //convert msg object to string
-                  String readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
-                  mReadBuffer.setText(readMessage);
-              }
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == MESSAGE_READ) { //Message read returned from thread handler means a message was transmitted to phone
+                    //convert msg object to string
+                    String readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
+                    mReadBuffer.setText(readMessage);
+                }
 
-              if(msg.what == CONNECTING_STATUS){ //Connecting status message returned from thread handler means bluetooth device was connected succesfully
-                  if(msg.arg1 == 1) {
-                      mBluetoothStatus.setText("Connected to Device: " + msg.obj);
-                      mRemoteControl.setEnabled(true); //Enable remote control button for remote control activity
-                      mVoiceControl.setEnabled(true); //Enable remote control button for voice control activity
-                  }
-                  else mBluetoothStatus.setText("Connection Failed");
-              }
-          }
+                if (msg.what == CONNECTING_STATUS) { //Connecting status message returned from thread handler means bluetooth device was connected succesfully
+                    if (msg.arg1 == 1) {
+                        mBluetoothStatus.setText("Connected to Device: " + msg.obj);
+                        mRemoteControl.setEnabled(true); //Enable remote control button for remote control activity
+                        mVoiceControl.setEnabled(true); //Enable remote control button for voice control activity
+                    } else mBluetoothStatus.setText("Connection Failed");
+                }
+            }
         };
 
-        if(mBluetoothArrayAdapter == null) {
+        if (mBluetoothArrayAdapter == null) {
             mBluetoothStatus.setText("Status: Bluetooth not found");
             Toast.makeText(getApplicationContext(), "Bluetooth device not found!", Toast.LENGTH_SHORT).show();
         } else {
@@ -134,22 +132,22 @@ public class BluetoothActivity extends AppCompatActivity {
              * Override of onclick listener writes "1" to BT if test bit button clicked
              * and thread is created
              */
-            mTestBit.setOnClickListener(new View.OnClickListener(){
-               @Override
-               public void onClick(View v){
-                   if(mApplication.bluetoothThread!=null){
-                       mApplication.bluetoothThread.write("1");
-                   }
-               }
+            mTestBit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mApplication.bluetoothThread != null) {
+                        mApplication.bluetoothThread.write("1");
+                    }
+                }
             });
 
             /**
              * Sets click functionality for scan button
              */
 
-            mBluetoothOn.setOnClickListener(new View.OnClickListener(){
+            mBluetoothOn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     bluetoothOn();
                 }
             });
@@ -157,9 +155,9 @@ public class BluetoothActivity extends AppCompatActivity {
             /**
              * Sets click functionality for off button
              */
-            mBluetoothOff.setOnClickListener(new View.OnClickListener(){
+            mBluetoothOff.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     bluetoothOff();
                 }
             });
@@ -167,9 +165,9 @@ public class BluetoothActivity extends AppCompatActivity {
             /**
              * Sets click functionality for show pair devices button
              */
-            mShowPairedDevices.setOnClickListener(new View.OnClickListener(){
+            mShowPairedDevices.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     listPairedDevices();
                 }
             });
@@ -177,9 +175,9 @@ public class BluetoothActivity extends AppCompatActivity {
             /**
              * Sets click functionality for discover new devices button
              */
-            mDiscoverNewDevices.setOnClickListener(new View.OnClickListener(){
+            mDiscoverNewDevices.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     discover();
                 }
             });
@@ -188,25 +186,39 @@ public class BluetoothActivity extends AppCompatActivity {
              * Sets click functionality for remote control button switching activity contexts
              * to remote control activity while passing bluetooth thread.
              */
-            mRemoteControl.setOnClickListener(new View.OnClickListener(){
+            mRemoteControl.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) { remoteControl();}
+                public void onClick(View v) {
+                    remoteControl();
+                }
             });
 
             /**
              * Sets click functionality for voice control activity
              */
-            mVoiceControl.setOnClickListener(new View.OnClickListener(){
+            mVoiceControl.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {VoiceControl();}
+                public void onClick(View v) {
+                    VoiceControl();
+                }
             });
 
         }
     }
 
-    private void bluetoothOn(){
-        if(!mBluetoothAdapter.isEnabled()) {
+    private void bluetoothOn() {
+        if (!mBluetoothAdapter.isEnabled()) {
             Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BT);
             mBluetoothStatus.setText("Bluetooth enabled");
             Toast.makeText(getApplicationContext(), "Bluetooth turned on", Toast.LENGTH_SHORT).show();
@@ -215,12 +227,23 @@ public class BluetoothActivity extends AppCompatActivity {
         }
     }
 
-    private void bluetoothOff(){
+    private void bluetoothOff() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mBluetoothAdapter.disable();
         mBluetoothStatus.setText("Bluetooth disabled");
         Toast.makeText(getApplicationContext(), "Bluetooth turned off", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("MissingPermission")
     private void discover(){
         //check if device is already in discovery mode
         if(mBluetoothAdapter.isDiscovering()){
@@ -239,6 +262,7 @@ public class BluetoothActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void listPairedDevices(){
         mBluetoothArrayAdapter.clear();
         mPairedDevices = mBluetoothAdapter.getBondedDevices();

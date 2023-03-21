@@ -16,6 +16,7 @@
     <string name="undistorted">Undistorted</string>
     <string name="calibration_heading">Calibrated:</string>
     <string name="bt_activity_btn">Bluetooth</string>
+    <string name="btn_drive">Drive</string>
     <string name="send_test_bit_text">Send Test Bit</string>
     <string name="rx">RX:</string>
     <string name="Remote">Remote</string>
@@ -37,7 +38,10 @@
     <string name="read_buffer">Read Buffer</string>
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
-    <string name="gps">GPS</string>
+    <string name="gpsData">Location</string>
+    <string name="calibrate">Calibrate</string>
     <string name="lat">LAT</string>
     <string name="lon">LON</string>
+    <string name="server">Server</string>
+    <string name="color_blob_detection">Detect Colors</string>
 </resources>

@@ -9,40 +9,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/bluetooth_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/bt_activity_btn" />
-        <Button
-            android:id="@+id/calibrate_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Calibrate" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
 
-        <Button
-            android:id="@+id/opencv_btn"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Color Mode"
+            android:orientation="vertical">
 
-            />
+            <Button
+                android:id="@+id/drive_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_drive"
+                tools:ignore="VisualLintButtonSize" />
 
-        <Button
-            android:id="@+id/mobilenet_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mobile Net" />
+            <Button
+                android:id="@+id/calibrate_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/calibrate" />
 
-        <Button
-            android:id="@+id/gps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gps"
-            android:visibility="visible"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/opencv_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/color_blob_detection" />
+
+            <Button
+                android:id="@+id/server_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/server" />
+
+            <Button
+                android:id="@+id/gps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gpsData"
+                android:visibility="visible" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

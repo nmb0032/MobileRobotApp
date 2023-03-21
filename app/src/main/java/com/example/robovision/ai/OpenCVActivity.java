@@ -131,8 +131,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     @Override
     public void onCameraViewStarted(int width, int height) {
         Log.d(TAG, "onCameraViewStarted with width: " + width + " Height: " + height);
-        //mRGBA = new Mat(height, width, CvType.CV_8UC4);
-        frame     = new Mat(height, width, CvType.CV_8UC4);
+        frame = new Mat(height, width, CvType.CV_8UC4);
 
         mDriver.setup(width);
 
@@ -141,7 +140,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         net = Dnn.readNetFromCaffe(proto, weights);
         Log.i(TAG, "Network loaded successfully");
 
-        mCameraCalibrator = new CameraCalibrator(width, height, false);
+        mCameraCalibrator = new CameraCalibrator(width, height, true);
         if(!CalibrationResult.tryLoad(this, mCameraCalibrator.getCameraMatrix(), mCameraCalibrator.getDistortionCoefficients(), getBaseContext())){
             Log.e(TAG, "Camera not calibrated, returning home");
             Toast.makeText(getApplicationContext(), "Please calibrate camera", Toast.LENGTH_LONG).show();
