@@ -133,14 +133,11 @@ MainActivity extends AppCompatActivity {
                     }
                 });
         dialog.setNegativeButton("Ignore",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Disable AI functionality
-                        Log.i(TAG, "AI abilities disabled");
-                        //TODO: add disable buttons function
-                        Toast.makeText(getApplicationContext(), "AI abilities disabled", Toast.LENGTH_SHORT).show();
-                    }
+                (dialog1, which) -> {
+                    //Disable AI functionality
+                    Log.i(TAG, "AI abilities disabled");
+                    //TODO: add disable buttons function
+                    Toast.makeText(getApplicationContext(), "AI abilities disabled", Toast.LENGTH_SHORT).show();
                 });
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
