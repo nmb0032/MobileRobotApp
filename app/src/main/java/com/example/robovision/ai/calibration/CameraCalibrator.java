@@ -23,17 +23,17 @@ public class CameraCalibrator {
     private final Size mPatternSize = new Size(4, 11);
     private final int mCornersSize = (int)(mPatternSize.width * mPatternSize.height);
     private boolean mPatternWasFound = false;
-    private MatOfPoint2f mCorners = new MatOfPoint2f();
-    private List<Mat> mCornersBuffer = new ArrayList<>();
+    private final MatOfPoint2f mCorners = new MatOfPoint2f();
+    private final List<Mat> mCornersBuffer = new ArrayList<>();
     private boolean mIsCalibrated = false;
 
-    private Mat mCameraMatrix = new Mat();
-    private Mat mDistortionCoefficients = new Mat();
-    private int mFlags;
+    private final Mat mCameraMatrix = new Mat();
+    private final Mat mDistortionCoefficients = new Mat();
+    private final int mFlags;
     private double mRms;
-    private double mSquareSize = 0.0181;
-    private Size mImageSize;
-    private boolean mCalibrating;
+    private final double mSquareSize = 0.0181;
+    private final Size mImageSize;
+    private final boolean mCalibrating;
 
     public CameraCalibrator(int width, int height, boolean calibrating) {
         mImageSize = new Size(width, height);

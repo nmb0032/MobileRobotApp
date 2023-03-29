@@ -16,14 +16,14 @@ import org.opencv.imgproc.Moments;
 
 public class ColorBlobDetector {
     // Lower and Upper bounds for range checking in HSV color space
-    private Scalar mLowerBound = new Scalar(0);
-    private Scalar mUpperBound = new Scalar(0);
+    private final Scalar mLowerBound = new Scalar(0);
+    private final Scalar mUpperBound = new Scalar(0);
     // Minimum contour area in pixels for contours filtering
     private static double mMinContourArea = 20;
     // Color radius for range checking in HSV color space
     private Scalar mColorRadius = new Scalar(25,50,50,0);
-    private Mat mSpectrum = new Mat();
-    private List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
+    private final Mat mSpectrum = new Mat();
+    private final List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
 
     // Cache
     Mat mPyrDownMat = new Mat();

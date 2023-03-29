@@ -17,7 +17,7 @@ public class Driver {
     private static final String TAG = "AI:Driver";
     private static final int HEADING_THRESH = 3;
 
-    private float mFOV;
+    private final float mFOV;
     private float mFOV_Ratio;
     private int mCenter;
 

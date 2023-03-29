@@ -45,9 +45,9 @@ class UndistortionFrameRender extends FrameRender {
 }
 
 class ComparisonFrameRender extends FrameRender {
-    private int mWidth;
-    private int mHeight;
-    private Resources mResources;
+    private final int mWidth;
+    private final int mHeight;
+    private final Resources mResources;
     public ComparisonFrameRender(CameraCalibrator calibrator, int width, int height, Resources resources) {
         mCalibrator = calibrator;
         mWidth = width;
@@ -79,7 +79,7 @@ class ComparisonFrameRender extends FrameRender {
 }
 
 public class OnCameraFrameRender {
-    private FrameRender mFrameRender;
+    private final FrameRender mFrameRender;
     public OnCameraFrameRender(FrameRender frameRender) {
         mFrameRender = frameRender;
     }

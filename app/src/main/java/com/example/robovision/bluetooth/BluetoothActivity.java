@@ -327,7 +327,7 @@ public class BluetoothActivity extends AppCompatActivity {
      * setups necessary to establish the connection. The onItemClick function seen below is called
      * when a Item is clicked in the bluetooth devices list.
      */
-    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
         /**
          * An override of the OnItemClickListener object changing onItemClick method to fit our
          * purpose displaying "toast" messages on item click if we can connect or not connect

@@ -53,7 +53,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
     private int mWidth;
     private int mHeight;
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+    private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
