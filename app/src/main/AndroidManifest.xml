@@ -44,8 +44,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <permission android:name="android.permission.BLUETOOTH" android:label="BLUETOOTH" />
     <permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="ReservedSystemPermission" />
+    <permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:ignore="ReservedSystemPermission" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
@@ -70,6 +72,16 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".RemoteConnection"
+            android:theme="@style/Theme.RoboVision"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".bluetooth.BluetoothActivity"
             android:theme="@style/Theme.RoboVision"

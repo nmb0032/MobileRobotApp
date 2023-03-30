@@ -39,6 +39,8 @@ MainActivity extends AppCompatActivity {
 
     private Button mGPSBtn;
 
+    private Button mRemoteBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,6 +51,7 @@ MainActivity extends AppCompatActivity {
         mDriveBtn = (Button)findViewById(R.id.drive_btn);
         mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
         mServerBtn = (Button)findViewById(R.id.server_btn);
+        mRemoteBtn = (Button)findViewById(R.id.remote_connection);
         mGPSBtn=findViewById(R.id.gps);
 
         mApplication = (BTBaseApplication)getApplication();
@@ -92,6 +95,13 @@ MainActivity extends AppCompatActivity {
             }
         });
 
+        mRemoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRemoteActivity();
+            }
+        });
+
     }
 
     private void calibrate(){
@@ -118,6 +128,12 @@ MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, gps.class);
         startActivity(intent);
     }
+
+    private void openRemoteActivity() {
+        Intent intent = new Intent(this, RemoteConnection.class);
+        startActivity(intent);
+    }
+
 
     private void bluetoothDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);

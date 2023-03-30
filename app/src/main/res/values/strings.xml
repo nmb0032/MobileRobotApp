@@ -44,4 +44,5 @@
     <string name="lon">LON</string>
     <string name="server">Server</string>
     <string name="color_blob_detection">Detect Colors</string>
+    <string name="connection">Remote Connection</string>
 </resources>
