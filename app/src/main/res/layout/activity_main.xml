@@ -20,71 +20,83 @@
         app:layout_constraintBottom_toTopOf="@+id/buttons_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,NotSibling" />
 
-    <LinearLayout
-        android:id="@+id/buttons_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
 
-        <Button
-            android:id="@+id/drive_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttons"
-            android:text="@string/btn_drive"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/calibrate_btn"
+        <LinearLayout
+            android:id="@+id/buttons_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttons"
-            android:text="@string/calibrate"
-            android:textColor="@android:color/white" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/opencv_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttons"
-            android:text="@string/color_blob_detection"
-            android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/drive_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="@string/btn_drive"
+                android:textColor="@android:color/white"
+                tools:ignore="VisualLintButtonSize" />
 
-        <Button
-            android:id="@+id/server_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttons"
-            android:text="@string/server"
-            android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/calibrate_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="@string/calibrate"
+                android:textColor="@android:color/white"
+                tools:ignore="VisualLintButtonSize" />
 
-        <Button
-            android:id="@+id/gps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttons"
-            android:text="@string/gpsData"
-            android:textColor="@android:color/white"
-            android:visibility="visible" />
+            <Button
+                android:id="@+id/opencv_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="@string/color_blob_detection"
+                android:textColor="@android:color/white"
+                tools:ignore="VisualLintButtonSize" />
 
-        <Button
-            android:id="@+id/remote_connection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/buttons"
-            android:text="@string/connection"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/server_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="@string/server"
+                android:textColor="@android:color/white"
+                tools:ignore="VisualLintButtonSize" />
+
+            <Button
+                android:id="@+id/gps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="@string/gpsData"
+                android:textColor="@android:color/white"
+                android:visibility="visible"
+                tools:ignore="VisualLintButtonSize" />
+
+            <Button
+                android:id="@+id/remote_connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="@string/connection"
+                android:textColor="@android:color/white"
+                tools:ignore="VisualLintButtonSize" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
