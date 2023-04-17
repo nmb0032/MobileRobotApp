@@ -1,30 +1,23 @@
 package com.example.robovision;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.os.Bundle;
-
-import org.opencv.android.OpenCVLoader;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.robovision.ai.OpenCVActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.robovision.ai.ColorBlobDetectionActivity;
+import com.example.robovision.ai.OpenCVActivity;
+import com.example.robovision.ai.calibration.CalibrationResult;
+import com.example.robovision.ai.calibration.CameraCalibrationActivity;
 import com.example.robovision.bluetooth.BTBaseApplication;
 import com.example.robovision.bluetooth.BluetoothActivity;
-import com.example.robovision.ai.calibration.CameraCalibrationActivity;
-import com.example.robovision.ai.calibration.CalibrationResult;
-
-import android.view.View;
-import android.widget.Button;
+import com.google.firebase.FirebaseApp;
 
 public class
 MainActivity extends AppCompatActivity {
@@ -40,19 +33,21 @@ MainActivity extends AppCompatActivity {
     private Button mGPSBtn;
 
     private Button mRemoteBtn;
+    private Button mFirebaseBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
-
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
         mDriveBtn = (Button)findViewById(R.id.drive_btn);
         mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
         mServerBtn = (Button)findViewById(R.id.server_btn);
         mRemoteBtn = (Button)findViewById(R.id.remote_connection);
         mGPSBtn=findViewById(R.id.gps);
+        mFirebaseBtn=findViewById(R.id.fire_base);
 
         mApplication = (BTBaseApplication)getApplication();
 
@@ -64,6 +59,12 @@ MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 openBluetoothActivity();
+            }
+        });
+        mFirebaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openFireActivity();
             }
         });
 
@@ -131,6 +132,10 @@ MainActivity extends AppCompatActivity {
 
     private void openRemoteActivity() {
         Intent intent = new Intent(this, RemoteConnection.class);
+        startActivity(intent);
+    }
+    private void openFireActivity() {
+        Intent intent = new Intent(this, firebaseConnection.class);
         startActivity(intent);
     }
 

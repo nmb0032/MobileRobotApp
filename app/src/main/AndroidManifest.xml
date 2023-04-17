@@ -81,6 +81,14 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".firebaseConnection"
+            android:theme="@style/Theme.RoboVision"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".bluetooth.BluetoothActivity"
