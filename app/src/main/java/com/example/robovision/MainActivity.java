@@ -1,11 +1,14 @@
 package com.example.robovision;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,6 +21,11 @@ import com.example.robovision.ai.calibration.CameraCalibrationActivity;
 import com.example.robovision.bluetooth.BTBaseApplication;
 import com.example.robovision.bluetooth.BluetoothActivity;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class
 MainActivity extends AppCompatActivity {
@@ -34,6 +42,8 @@ MainActivity extends AppCompatActivity {
 
     private Button mRemoteBtn;
     private Button mFirebaseBtn;
+    private DatabaseReference mDatabase;
+    private TextView T1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +147,7 @@ MainActivity extends AppCompatActivity {
     private void openFireActivity() {
         Intent intent = new Intent(this, firebaseConnection.class);
         startActivity(intent);
+
     }
 
 
@@ -190,4 +201,5 @@ MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
     }
+
 }
