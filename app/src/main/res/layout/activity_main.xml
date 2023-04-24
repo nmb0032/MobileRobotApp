@@ -105,7 +105,18 @@
                 android:text="FireBaseConnection"
                 android:textColor="@android:color/white"
                 tools:ignore="VisualLintButtonSize" />
+            <Button
+                android:id="@+id/fire_controller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="FireBaseController"
+                android:textColor="@android:color/white"
+                tools:ignore="VisualLintButtonSize" />
+
         </LinearLayout>
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

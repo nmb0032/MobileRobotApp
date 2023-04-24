@@ -80,7 +80,7 @@ public class firebaseConnection extends AppCompatActivity {
 
     public void fireBasePull() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference messagesRef = mDatabase.child("random_data");
+        DatabaseReference messagesRef = mDatabase.child("move");
 
 
         messagesRef.addValueEventListener(new ValueEventListener() {

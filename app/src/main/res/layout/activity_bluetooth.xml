@@ -139,6 +139,16 @@
                 android:text="@string/voice_control"
                 android:textColor="@android:color/white"
                 android:visibility="visible" />
+            <Button
+                android:id="@+id/fire_pull"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttons"
+                android:text="fire_pull"
+                android:textColor="@android:color/white"
+                android:visibility="visible" />
 
             <ListView
                 android:id="@+id/devicesListView"

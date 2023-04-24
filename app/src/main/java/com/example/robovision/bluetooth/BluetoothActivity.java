@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import com.example.robovision.R;
 import com.example.robovision.RemoteControl;
 import com.example.robovision.VoiceControlActivity;
+import com.example.robovision.firebasePull;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -51,6 +52,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private Button mDiscoverNewDevices;
     private Button mRemoteControl;
     private Button mVoiceControl;
+    private Button mfirePull;
     private Set<BluetoothDevice> mPairedDevices;
     private ArrayAdapter<String> mBluetoothArrayAdapter;
     private ListView mDevicesListView;
@@ -85,6 +87,7 @@ public class BluetoothActivity extends AppCompatActivity {
         mRemoteControl = (Button) findViewById(R.id.remote);
         mVoiceControl = (Button) findViewById(R.id.voice_control);
         mTestBit = (CheckBox) findViewById(R.id.checkboxTestBit);
+        mfirePull = (Button) findViewById(R.id.fire_pull);
 
         mBluetoothArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1); //Getting list structure for UI devicelist view
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter(); //BT radio
@@ -116,7 +119,8 @@ public class BluetoothActivity extends AppCompatActivity {
                     if (msg.arg1 == 1) {
                         mBluetoothStatus.setText("Connected to Device: " + msg.obj);
                         mRemoteControl.setEnabled(true); //Enable remote control button for remote control activity
-                        mVoiceControl.setEnabled(true); //Enable remote control button for voice control activity
+                        mVoiceControl.setEnabled(true);
+                        mfirePull.setEnabled(true);//Enable remote control button for voice control activity
                     } else mBluetoothStatus.setText("Connection Failed");
                 }
             }
@@ -190,6 +194,12 @@ public class BluetoothActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     remoteControl();
+                }
+            });
+            mfirePull.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fire();
                 }
             });
 
@@ -287,6 +297,10 @@ public class BluetoothActivity extends AppCompatActivity {
 
     private void VoiceControl(){
         Intent intent = new Intent(getApplicationContext(), VoiceControlActivity.class);
+        startActivity(intent);
+    }
+    private void fire() {
+        Intent intent = new Intent(getApplicationContext(), firebasePull.class);
         startActivity(intent);
     }
 
