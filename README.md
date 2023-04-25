@@ -25,7 +25,7 @@
  - [Cycle 3 Slides](https://docs.google.com/presentation/d/1ww0hI9QKXmtIRfc8HO26uGq-HRFrFbX9yqy_kpS0K8U/edit?usp=sharing)
  
  - [User Docs](https://docs.google.com/document/d/1Yoe3S56Z-e-DanHI58AFT1Jp0I9akRdLq3ZAUkTI9Bg/edit)
- - [Developer Docs](https://docs.google.com/document/d/1-b5ADQzmMONK8tU-k0wKid5Uuo_pxruMhFI0bywFZeE/edit)
+ - [Developer Docs](https://docs.google.com/document/d/1g2VuCEaCHmAALW_qroCLtKQEp9yHvM88Q3mFBK9di50/edit?usp=sharing)
 
 
 ## Links
