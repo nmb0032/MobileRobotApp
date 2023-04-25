@@ -35,3 +35,5 @@
  - [Status Report](https://1drv.ms/x/s!AgYAmdpDEql86C9xt_iIQKfCbKrT?e=SMvsE3)
  - [Peer Evaluations](https://auburn.instructure.com/files/210776313/download?download_frd=1)
  - [Arduino Code Base](https://github.com/jdg072/Zumo_Robot_Code)
+ - [User Docs Example](https://auburn.instructure.com/courses/1473286/files/folder/Projects/14%20Smart%20Robots?preview=210980338)
+ - [Dev Docs Example](https://auburn.instructure.com/courses/1473286/files/folder/Projects/14%20Smart%20Robots?preview=210980339)
