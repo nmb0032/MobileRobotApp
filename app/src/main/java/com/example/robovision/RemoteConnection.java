@@ -33,7 +33,7 @@ public class RemoteConnection extends AppCompatActivity {
     }
 
     private void openRobotConnection() {
-        Intent intent = new Intent(this, firebasePull.class);
+        Intent intent = new Intent(this, firebaseController.class);
         startActivity(intent);
     }
 }

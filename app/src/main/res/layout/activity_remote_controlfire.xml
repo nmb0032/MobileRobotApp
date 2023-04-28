@@ -131,13 +131,12 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/JoinButton"
+                android:id="@+id/JoinButtonControl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="40dp"
-                android:onClick="joinChannel"
                 android:text="Join" />
 
             <Space
@@ -146,13 +145,12 @@
                 android:layout_weight=".33" />
 
             <Button
-                android:id="@+id/LeaveButton"
+                android:id="@+id/LeaveButtonControl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="40dp"
-                android:onClick="leaveChannel"
                 android:text="Leave" />
         </TableRow>
     </TableLayout>

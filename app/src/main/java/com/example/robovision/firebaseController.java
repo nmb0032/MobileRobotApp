@@ -34,6 +34,8 @@ public class firebaseController extends AppCompatActivity {
     private Button mReverse;
     private Button mRight;
     private Button mLeft;
+    private Button mJoinBtn;
+    private Button mLeaveBtn;
 
     private BTBaseApplication mApplication;
     // Fill the App ID of your project generated on Agora Console.
@@ -119,6 +121,9 @@ public class firebaseController extends AppCompatActivity {
         mReverse = findViewById(R.id.Reverse);
         mRight = findViewById(R.id.Right);
         mLeft = findViewById(R.id.Left);
+        mLeaveBtn = findViewById(R.id.LeaveButtonControl);
+        mJoinBtn = findViewById(R.id.JoinButtonControl);
+
 
         mApplication = (BTBaseApplication) getApplication();
 
@@ -126,6 +131,9 @@ public class firebaseController extends AppCompatActivity {
         mReverse.setOnTouchListener(createOnTouchListener("2"));
         mRight.setOnTouchListener(createOnTouchListener("3"));
         mLeft.setOnTouchListener(createOnTouchListener("4"));
+        mLeaveBtn.setOnClickListener(v -> leaveChannelControl(remoteSurfaceView));
+        mJoinBtn.setOnClickListener(v -> joinChannelControl(remoteSurfaceView));
+
 
         if (!checkSelfPermission()) {
             ActivityCompat.requestPermissions(this, REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
@@ -133,7 +141,7 @@ public class firebaseController extends AppCompatActivity {
         setupVideoSDKEngine();
     }
 
-    public void joinChannel(View view) {
+    public void joinChannelControl(View view) {
         if (checkSelfPermission()) {
             ChannelMediaOptions options = new ChannelMediaOptions();
 
@@ -152,7 +160,7 @@ public class firebaseController extends AppCompatActivity {
         }
     }
 
-    public void leaveChannel(View view) {
+    public void leaveChannelControl(View view) {
         if (!isJoined) {
             showMessage("Join a channel first");
         } else {

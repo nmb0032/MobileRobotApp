@@ -40,7 +40,6 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-iot:2.49.0'
     implementation 'com.amazonaws:aws-android-sdk-core:2.63.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    // implementation 'org.webrtc:google-webrtc:1.0.32006'
     implementation 'io.agora.rtc:full-sdk:4.0.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

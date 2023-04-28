@@ -10,12 +10,6 @@ buildscript {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url 'https://google.bintray.com/webrtc' }
-//        jcenter() {
-//            content {
-//                includeModule("org.webrtc", "google-webrtc")
-//            }
-//        }
 
     }
     dependencies {
