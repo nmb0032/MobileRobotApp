@@ -39,6 +39,7 @@ MainActivity extends AppCompatActivity {
     private Button mServerBtn;
 
     private Button mGPSBtn;
+    private Button mRobotBtn;
 
     private Button mRemoteBtn;
     private DatabaseReference mDatabase;
@@ -57,7 +58,6 @@ MainActivity extends AppCompatActivity {
         mServerBtn = (Button)findViewById(R.id.server_btn);
         mRemoteBtn = (Button)findViewById(R.id.remote_connection);
         mGPSBtn=findViewById(R.id.gps);
-
 
         mApplication = (BTBaseApplication)getApplication();
 
@@ -107,6 +107,7 @@ MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     private void calibrate(){
@@ -138,6 +139,7 @@ MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RemoteConnection.class);
         startActivity(intent);
     }
+
 
 
     private void bluetoothDialog(){

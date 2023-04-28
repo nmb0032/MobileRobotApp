@@ -45,7 +45,7 @@ public class firebasePull extends AppCompatActivity {
     // Fill the channel name.
     private final String channelName = "robot";
     // Fill the temp token generated on Agora Console.
-    private final String token = "007eJxTYGD78nJWZXTP3IDdf94w3TNXnfZbdBJPtcHvrEfz7+kUfV2twGCeYpRomJZinGqZYmRikphoYWJsZGJgnGJqaZySYpBmqrHYK6UhkJFhjosUAyMUgvisDEX5SfklDAwA9jcg2w==";
+    private final String token = "007eJxTYAipMp0xt6w7jPd++8GEmQVCvC4/RGI45h5bHX4g/e40OSUFBvMUo0TDtBTjVMsUIxOTxEQLE2MjEwPjFFNL45QUgzRTLkGflIZARoYs2xsMjFAI4rMyFOUn5ZcwMAAA1hEdVg==";
     // An integer that identifies the local user.
     private final int uid = 0;
     private boolean isJoined = false;
@@ -56,7 +56,6 @@ public class firebasePull extends AppCompatActivity {
     private RtcEngine agoraEngine;
     //SurfaceView to render local video in a Container.
     private DatabaseReference mDatabase;
-    private TextView T1;
     private final static String TAG = "Remote";
 
     //Motion keys
@@ -101,7 +100,6 @@ public class firebasePull extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remote_firepull);
-        T1 = (TextView) findViewById(R.id.title);
         mApplication = (BTBaseApplication) getApplication();
         mDisconnect = (Button) findViewById(R.id.user_btn);
         checkBluetoothConnection(); //checking bluetooth connection
@@ -130,7 +128,6 @@ public class firebasePull extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
-                T1.setText(value);
                 if (value.contains("1")) {
                     Forward();
                 }
@@ -174,6 +171,7 @@ public class firebasePull extends AppCompatActivity {
         super.onResume();
         handler.post(runnable);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -234,45 +232,6 @@ public class firebasePull extends AppCompatActivity {
         }
     }
 
-    public void joinChannel(View view) {
-        if (checkSelfPermission()) {
-            ChannelMediaOptions options = new ChannelMediaOptions();
-
-            // For Live Streaming, set the channel profile as LIVE_BROADCASTING.
-            options.channelProfile = Constants.CHANNEL_PROFILE_LIVE_BROADCASTING;
-
-            // Set the client role as BROADCASTER.
-            options.clientRoleType = Constants.CLIENT_ROLE_BROADCASTER;
-
-            // Display LocalSurfaceView.
-            setupLocalVideo();
-            localSurfaceView.setVisibility(View.VISIBLE);
-
-            // Start local preview.
-            agoraEngine.startPreview();
-
-            // Join the channel with a temp token.
-            // You need to specify the user ID yourself, and ensure that it is unique in the channel.
-            agoraEngine.joinChannel(token, channelName, uid, options);
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Permissions was not granted", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void leaveChannel(View view) {
-        if (!isJoined) {
-            showMessage("Join a channel first");
-        } else {
-            agoraEngine.leaveChannel();
-            showMessage("You left the channel");
-            // Stop local video rendering.
-            if (localSurfaceView != null) localSurfaceView.setVisibility(View.GONE);
-            isJoined = false;
-        }
-    }
-
-
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
         @Override
         // Listen for the remote host joining the channel to get the uid of the host.
@@ -304,6 +263,40 @@ public class firebasePull extends AppCompatActivity {
     void showMessage(String message) {
         runOnUiThread(() ->
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
+    }
+
+    public void joinChannel(View view) {
+        if (checkSelfPermission()) {
+            ChannelMediaOptions options = new ChannelMediaOptions();
+            // For Live Streaming, set the channel profile as LIVE_BROADCASTING.
+            options.channelProfile = Constants.CHANNEL_PROFILE_LIVE_BROADCASTING;
+            // Set the client role as BROADCASTER
+                options.clientRoleType = Constants.CLIENT_ROLE_BROADCASTER;
+                // Display LocalSurfaceView.
+                setupLocalVideo();
+                localSurfaceView.setVisibility(View.VISIBLE);
+                // Start local preview.
+                agoraEngine.startPreview();
+
+            // Join the channel with a temp token.
+            // You need to specify the user ID yourself, and ensure that it is unique in the channel.
+            agoraEngine.joinChannel(token, channelName, uid, options);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Permissions was not granted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void leaveChannel(View view) {
+        if (!isJoined) {
+            showMessage("Join a channel first");
+        } else {
+            agoraEngine.leaveChannel();
+            showMessage("You left the channel");
+            // Stop local video rendering.
+            if (localSurfaceView != null) localSurfaceView.setVisibility(View.GONE);
+            isJoined = false;
+        }
     }
 
     @Override

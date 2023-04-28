@@ -28,12 +28,12 @@ public class RemoteConnection extends AppCompatActivity {
     }
 
     private void openUserConnection() {
-        Intent intent = new Intent(this, BluetoothActivity.class);
+        Intent intent = new Intent(this, firebaseController.class);
         startActivity(intent);
     }
 
     private void openRobotConnection() {
-        Intent intent = new Intent(this, firebaseController.class);
+        Intent intent = new Intent(this, BluetoothActivity.class);
         startActivity(intent);
     }
 }

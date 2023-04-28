@@ -1,5 +1,4 @@
 package com.example.robovision;
-import com.example.robovision.RobotConnection;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -43,7 +42,7 @@ public class firebaseController extends AppCompatActivity {
     // Fill the channel name.
     private final String channelName = "robot";
     // Fill the temp token generated on Agora Console.
-    private final String token = "007eJxTYGD78nJWZXTP3IDdf94w3TNXnfZbdBJPtcHvrEfz7+kUfV2twGCeYpRomJZinGqZYmRikphoYWJsZGJgnGJqaZySYpBmqrHYK6UhkJFhjosUAyMUgvisDEX5SfklDAwA9jcg2w==";
+    private final String token = "007eJxTYAipMp0xt6w7jPd++8GEmQVCvC4/RGI45h5bHX4g/e40OSUFBvMUo0TDtBTjVMsUIxOTxEQLE2MjEwPjFFNL45QUgzRTLkGflIZARoYs2xsMjFAI4rMyFOUn5ZcwMAAA1hEdVg==";
     // An integer that identifies the local user.
     private final int uid = 0;
     private RtcEngine agoraEngine;
@@ -121,8 +120,6 @@ public class firebaseController extends AppCompatActivity {
         mReverse = findViewById(R.id.Reverse);
         mRight = findViewById(R.id.Right);
         mLeft = findViewById(R.id.Left);
-        mLeaveBtn = findViewById(R.id.LeaveButtonControl);
-        mJoinBtn = findViewById(R.id.JoinButtonControl);
 
 
         mApplication = (BTBaseApplication) getApplication();
@@ -131,8 +128,6 @@ public class firebaseController extends AppCompatActivity {
         mReverse.setOnTouchListener(createOnTouchListener("2"));
         mRight.setOnTouchListener(createOnTouchListener("3"));
         mLeft.setOnTouchListener(createOnTouchListener("4"));
-        mLeaveBtn.setOnClickListener(v -> leaveChannelControl(remoteSurfaceView));
-        mJoinBtn.setOnClickListener(v -> joinChannelControl(remoteSurfaceView));
 
 
         if (!checkSelfPermission()) {
@@ -141,7 +136,7 @@ public class firebaseController extends AppCompatActivity {
         setupVideoSDKEngine();
     }
 
-    public void joinChannelControl(View view) {
+    public void joinChannelUser(View view) {
         if (checkSelfPermission()) {
             ChannelMediaOptions options = new ChannelMediaOptions();
 
@@ -154,13 +149,14 @@ public class firebaseController extends AppCompatActivity {
             // Join the channel with a temp token.
             // You need to specify the user ID yourself, and ensure that it is unique in the channel.
             agoraEngine.joinChannel(token, channelName, uid, options);
+            showMessage("Joined a channel");
 
         } else {
             Toast.makeText(getApplicationContext(), "Permissions was not granted", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void leaveChannelControl(View view) {
+    public void leaveChannelUser(View view) {
         if (!isJoined) {
             showMessage("Join a channel first");
         } else {
