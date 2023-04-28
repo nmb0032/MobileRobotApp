@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "420225901928",
+    "firebase_url": "https://ausmartrobot-default-rtdb.firebaseio.com",
     "project_id": "ausmartrobot",
     "storage_bucket": "ausmartrobot.appspot.com"
   },

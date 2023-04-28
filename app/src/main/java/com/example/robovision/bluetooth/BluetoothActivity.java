@@ -420,6 +420,7 @@ public class BluetoothActivity extends AppCompatActivity {
      * @return A bluetooth socket connection
      * @throws IOException if secure connection cannot be established
      */
+    @SuppressLint("MissingPermission")
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         try {
             final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", UUID.class);

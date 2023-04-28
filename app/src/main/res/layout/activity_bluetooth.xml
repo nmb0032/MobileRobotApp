@@ -146,7 +146,7 @@
                 android:enabled="false"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/buttons"
-                android:text="fire_pull"
+                android:text="@string/fire_pull"
                 android:textColor="@android:color/white"
                 android:visibility="visible" />
 

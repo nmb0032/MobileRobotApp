@@ -6,34 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".firebaseController">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        tools:ignore="MissingConstraints">
+
+        <FrameLayout
+            android:id="@+id/remote_video_container"
+            android:layout_width="360dp"
+            android:layout_height="260dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/darker_gray" />
+
+    </RelativeLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="250dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        tools:layout_editor_absoluteY="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
 
         <TableLayout
+            android:id="@+id/controls"
             android:layout_width="match_parent"
-            android:layout_weight=".5"
-            android:layout_height="0dip">
+            android:layout_height="0dip"
+            android:layout_weight=".5">
 
-            <TableRow >
+            <TableRow>
+
                 <Space
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".33" />
+
                 <Button
                     android:id="@+id/Forward"
-                    android:layout_gravity="center"
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
                     android:layout_height="84dp"
-                    android:text="@string/Forward" />
-                <Space
+                    android:layout_gravity="center"
                     android:layout_weight=".33"
+                    android:text="@string/Forward" />
+
+                <Space
                     android:layout_width="0dip"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".33" />
             </TableRow>
 
             <TableRow
@@ -42,23 +68,23 @@
 
                 <Button
                     android:id="@+id/Left"
-                    android:layout_gravity="left"
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
                     android:layout_height="84dp"
+                    android:layout_gravity="left"
+                    android:layout_weight=".33"
                     android:text="@string/Left" />
 
                 <Space
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".33" />
 
                 <Button
                     android:id="@+id/Right"
-                    android:layout_gravity="right"
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
                     android:layout_height="83dp"
+                    android:layout_gravity="right"
+                    android:layout_weight=".33"
                     android:text="@string/Right" />
             </TableRow>
 
@@ -87,8 +113,48 @@
 
         </TableLayout>
 
-
-
     </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight=".5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="4dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/JoinButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="40dp"
+                android:onClick="joinChannel"
+                android:text="Join" />
+
+            <Space
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".33" />
+
+            <Button
+                android:id="@+id/LeaveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="40dp"
+                android:onClick="leaveChannel"
+                android:text="Leave" />
+        </TableRow>
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

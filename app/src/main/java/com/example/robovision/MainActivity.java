@@ -41,11 +41,9 @@ MainActivity extends AppCompatActivity {
     private Button mGPSBtn;
 
     private Button mRemoteBtn;
-    private Button mFirebaseBtn;
-    private Button mFirebaseSendBtn;
-    private Button mFirebasePullBtn;
     private DatabaseReference mDatabase;
     private TextView T1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +57,6 @@ MainActivity extends AppCompatActivity {
         mServerBtn = (Button)findViewById(R.id.server_btn);
         mRemoteBtn = (Button)findViewById(R.id.remote_connection);
         mGPSBtn=findViewById(R.id.gps);
-        mFirebaseBtn=findViewById(R.id.fire_base);
-        mFirebaseSendBtn=findViewById(R.id.fire_controller);
 
 
         mApplication = (BTBaseApplication)getApplication();
@@ -73,12 +69,6 @@ MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 openBluetoothActivity();
-            }
-        });
-        mFirebaseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                openFireActivity();
             }
         });
 
@@ -116,13 +106,6 @@ MainActivity extends AppCompatActivity {
                 openRemoteActivity();
             }
         });
-        mFirebaseSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFireSendActivity();
-            }
-        });
-
 
     }
 
@@ -154,21 +137,6 @@ MainActivity extends AppCompatActivity {
     private void openRemoteActivity() {
         Intent intent = new Intent(this, RemoteConnection.class);
         startActivity(intent);
-    }
-    private void openFireActivity() {
-        Intent intent = new Intent(this, firebaseConnection.class);
-        startActivity(intent);
-
-    }
-    private void openFireSendActivity() {
-        Intent intent = new Intent(this, firebaseController.class);
-        startActivity(intent);
-
-    }
-    private void openFirePullActivity() {
-        Intent intent = new Intent(this, firebasePull.class);
-        startActivity(intent);
-
     }
 
 

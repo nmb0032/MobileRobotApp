@@ -2,6 +2,7 @@ package com.example.robovision;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +26,11 @@ import com.google.firebase.database.ValueEventListener;
 public class firebaseConnection extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private Button mConnBtn;
+    private Button mRandBtn;
     private TextView T1;
-    private Button mNoBtn;
+    private Button mPullBtn;
     private Button mConnectBtn;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,17 +38,16 @@ public class firebaseConnection extends AppCompatActivity {
         setContentView(R.layout.activity_fire_connect);
         handler.post(runnable);
         T1 = (TextView) findViewById(R.id.title);
-        mConnBtn = (Button) findViewById(R.id.conn_btn);
-        mNoBtn = (Button) findViewById(R.id.no_btn);
+        mRandBtn = (Button) findViewById(R.id.rand_btn);
+        mPullBtn = (Button) findViewById(R.id.pull_btn);
         mConnectBtn = (Button) findViewById(R.id.connect_btn);
-        mConnBtn.setOnTouchListener(new View.OnTouchListener() {
+        mRandBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.post(sendding);
+                    handler.post(sending);
                 } else if(event.getAction() == MotionEvent.ACTION_UP){
-                    handler.removeCallbacks(sendding);
+                    handler.removeCallbacks(sending);
                     String input = "data" + 0;
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     String key = mDatabase.child("random_data").push().getKey();
@@ -57,16 +58,12 @@ public class firebaseConnection extends AppCompatActivity {
             }
         });
 
-        mNoBtn.setOnClickListener(new View.OnClickListener() {
+        mPullBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                fireBasePull();
-
             }
-
-
         });
-
     }
 
     public void firebaseConnection() {
@@ -96,9 +93,7 @@ public class firebaseConnection extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // ...
             }
-
         });
-
     }
 private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable runnable = new Runnable() {
@@ -108,7 +103,7 @@ private Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(this, 1000);
         }
     };
-    private Runnable sendding = new Runnable() {
+    private Runnable sending = new Runnable() {
         @Override
         public void run() {
             firebaseConnection();

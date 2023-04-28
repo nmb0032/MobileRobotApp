@@ -28,7 +28,7 @@
             android:orientation="vertical" >
 
             <Button
-                android:id="@+id/conn_btn"
+                android:id="@+id/rand_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -37,7 +37,7 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/no_btn"
+                android:id="@+id/pull_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/buttons"

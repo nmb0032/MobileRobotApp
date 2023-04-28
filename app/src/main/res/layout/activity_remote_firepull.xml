@@ -6,37 +6,80 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".RemoteConnection">
 
-<TextView
-    android:id="@+id/title"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Which device is this?"
-    android:textSize="24sp"
-    android:layout_marginBottom="30dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="100dp">
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/user_btn"
-            android:layout_width="match_parent"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/buttons"
-            android:text="User"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
-</ScrollView>
+            android:text="Host a Remote Connection"
+            android:textSize="24sp"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true">
+
+
+                <FrameLayout
+                    android:id="@+id/local_video_container"
+                    android:layout_width="320dp"
+                    android:layout_height="240dp"
+                    android:layout_below="@+id/title"
+                    android:layout_marginStart="50dp"
+                    android:background="@android:color/darker_gray" />
+            <LinearLayout
+                android:id="@+id/buttonRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/JoinButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="200dp"
+                    android:onClick="joinChannel"
+                    android:text="Join" />
+
+                <Space
+                    android:layout_weight=".33"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/LeaveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:onClick="leaveChannel"
+                    android:text="Leave" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/user_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="190dp"
+                android:background="@drawable/buttons"
+                android:onClick="disconnectPull"
+                android:text="Disconnect"
+                android:textColor="@android:color/white" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
