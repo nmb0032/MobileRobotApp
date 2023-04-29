@@ -24,8 +24,9 @@ import org.opencv.core.Mat;
 
 import android.app.ProgressDialog;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,7 @@ import com.example.robovision.R;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.*;
 
 public class CameraCalibrationActivity extends CameraActivity implements CvCameraViewListener2, OnTouchListener {
     private static final String TAG = "OCVSample::Activity";
@@ -51,7 +53,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
     private int mWidth;
     private int mHeight;
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+    private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
@@ -100,7 +102,7 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback);
         } else {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -162,27 +164,21 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
             }
 
             mOnCameraFrameRender = new OnCameraFrameRender(new PreviewFrameRender());
-            new AsyncTask<Void, Void, Void>() {
-                private ProgressDialog calibrationProgress;
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
 
-                @Override
-                protected void onPreExecute() {
-                    calibrationProgress = new ProgressDialog(CameraCalibrationActivity.this);
-                    calibrationProgress.setTitle(res.getString(R.string.calibrating));
-                    calibrationProgress.setMessage(res.getString(R.string.please_wait));
-                    calibrationProgress.setCancelable(false);
-                    calibrationProgress.setIndeterminate(true);
-                    calibrationProgress.show();
-                }
 
-                @Override
-                protected Void doInBackground(Void... arg0) {
-                    mCalibrator.calibrate();
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
+            executor.execute(() -> {
+                //Background work here
+                ProgressDialog calibrationProgress;
+                calibrationProgress = new ProgressDialog(CameraCalibrationActivity.this);
+                calibrationProgress.setTitle(res.getString(R.string.calibrating));
+                calibrationProgress.setMessage(res.getString(R.string.please_wait));
+                calibrationProgress.setCancelable(false);
+                calibrationProgress.setIndeterminate(true);
+                calibrationProgress.show();
+                handler.post(() -> {
+                    //UI Thread work here
                     calibrationProgress.dismiss();
                     mCalibrator.clearCorners();
                     mOnCameraFrameRender = new OnCameraFrameRender(new CalibrationFrameRender(mCalibrator));
@@ -195,9 +191,10 @@ public class CameraCalibrationActivity extends CameraActivity implements CvCamer
                         CalibrationResult.save(CameraCalibrationActivity.this,
                                 mCalibrator.getCameraMatrix(), mCalibrator.getDistortionCoefficients(), CameraCalibrationActivity.this);
                     }
-                }
-            }.execute();
+                });
+            });
             return true;
+
         default:
             return super.onOptionsItemSelected(item);
         }

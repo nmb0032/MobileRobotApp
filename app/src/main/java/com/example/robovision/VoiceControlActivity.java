@@ -44,7 +44,7 @@ public class VoiceControlActivity extends Activity implements
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
-    private String LOG_TAG = "VoiceRecognitionActivity";
+    private final String LOG_TAG = "VoiceRecognitionActivity";
 
     private BTBaseApplication mApplication;
     private final static String FORWARD = "1";

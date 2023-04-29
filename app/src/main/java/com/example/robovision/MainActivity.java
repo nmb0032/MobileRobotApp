@@ -1,8 +1,20 @@
 package com.example.robovision;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+<<<<<<< HEAD
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.bluetooth.BluetoothAdapter;
@@ -18,28 +30,48 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.robovision.ai.OpenCVActivity;
+=======
+>>>>>>> develop
 import com.example.robovision.ai.ColorBlobDetectionActivity;
+import com.example.robovision.ai.OpenCVActivity;
+import com.example.robovision.ai.calibration.CalibrationResult;
+import com.example.robovision.ai.calibration.CameraCalibrationActivity;
 import com.example.robovision.bluetooth.BTBaseApplication;
 import com.example.robovision.bluetooth.BluetoothActivity;
-import com.example.robovision.ai.calibration.CameraCalibrationActivity;
-import com.example.robovision.ai.calibration.CalibrationResult;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+<<<<<<< HEAD
 import android.view.View;
 import android.widget.Button;
 =======
 >>>>>>> MobileNet
 
 public class MainActivity extends AppCompatActivity {
+=======
+public class
+MainActivity extends AppCompatActivity {
+>>>>>>> develop
     private final static String TAG = "RV::Main";
 
     private BTBaseApplication mApplication;
 
     private Button mCalibrationButton;
-    private Button mBTActivityBtn;
+    private Button mDriveBtn;
     private Button mOpenCVActivityBtn;
-    private Button mMobileNetBtn;
+    private Button mServerBtn;
 
     private Button mGPSBtn;
+    private Button mRobotBtn;
+
+    private Button mRemoteBtn;
+    private DatabaseReference mDatabase;
+    private TextView T1;
+
 
     Button b1;
 
@@ -47,13 +79,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+>>>>>>> develop
         mCalibrationButton = (Button)findViewById(R.id.calibrate_btn);
-        mBTActivityBtn = (Button)findViewById(R.id.bluetooth_btn);
+        mDriveBtn = (Button)findViewById(R.id.drive_btn);
         mOpenCVActivityBtn = (Button)findViewById(R.id.opencv_btn);
-        mMobileNetBtn = (Button)findViewById(R.id.mobilenet_btn);
+        mServerBtn = (Button)findViewById(R.id.server_btn);
+        mRemoteBtn = (Button)findViewById(R.id.remote_connection);
         mGPSBtn=findViewById(R.id.gps);
 =======
         /* switch to new activity start */
@@ -77,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         if(!CalibrationResult.checkCalibration(getBaseContext())) calibrateDialog();
 
 
-        mBTActivityBtn.setOnClickListener(new View.OnClickListener() {
+        mDriveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 openBluetoothActivity();
@@ -98,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMobileNetBtn.setOnClickListener(new View.OnClickListener() {
+        mServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openMobileNetActivity();
@@ -111,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 openGpsActivity();
             }
         });
+
+        mRemoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRemoteActivity();
+            }
+        });
+
 
     }
 
@@ -139,6 +184,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void openRemoteActivity() {
+        Intent intent = new Intent(this, RemoteConnection.class);
+        startActivity(intent);
+    }
+
+
+
     private void bluetoothDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage("The Robot must be connected through bluetooth to use any modes.\n" +
@@ -153,14 +205,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         dialog.setNegativeButton("Ignore",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Disable AI functionality
-                        Log.i(TAG, "AI abilities disabled");
-                        //TODO: add disable buttons function
-                        Toast.makeText(getApplicationContext(), "AI abilities disabled", Toast.LENGTH_SHORT).show();
-                    }
+                (dialog1, which) -> {
+                    //Disable AI functionality
+                    Log.i(TAG, "AI abilities disabled");
+                    //TODO: add disable buttons function
+                    Toast.makeText(getApplicationContext(), "AI abilities disabled", Toast.LENGTH_SHORT).show();
                 });
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
@@ -192,4 +241,5 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
     }
+
 }

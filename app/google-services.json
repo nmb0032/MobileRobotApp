@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "414395293671",
-    "project_id": "localization-339503",
-    "storage_bucket": "localization-339503.appspot.com"
+    "project_number": "420225901928",
+    "firebase_url": "https://ausmartrobot-default-rtdb.firebaseio.com",
+    "project_id": "ausmartrobot",
+    "storage_bucket": "ausmartrobot.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:414395293671:android:08458176017a60b2972742",
+        "mobilesdk_app_id": "1:420225901928:android:e0464b5725aa5a0c62e2dd",
         "android_client_info": {
           "package_name": "com.example.robovision"
         }
       },
       "oauth_client": [
         {
-          "client_id": "414395293671-hr4rqhmgitscr4icd8j74efqeqhc7rma.apps.googleusercontent.com",
+          "client_id": "420225901928-m73grt0j3beepoedj3kg9qpr9iku8c3m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCZ1dJm8SuQWS9G3I5XGrCCJNgTqE4eWt0"
+          "current_key": "AIzaSyBXXgKTDKb1ic5jk90joD53GgeRJMDGHPM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "414395293671-hr4rqhmgitscr4icd8j74efqeqhc7rma.apps.googleusercontent.com",
+              "client_id": "420225901928-m73grt0j3beepoedj3kg9qpr9iku8c3m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

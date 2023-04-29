@@ -16,6 +16,7 @@
     <string name="undistorted">Undistorted</string>
     <string name="calibration_heading">Calibrated:</string>
     <string name="bt_activity_btn">Bluetooth</string>
+    <string name="btn_drive">Drive</string>
     <string name="send_test_bit_text">Send Test Bit</string>
     <string name="rx">RX:</string>
     <string name="Remote">Remote</string>
@@ -26,8 +27,9 @@
     <string name="select_object_to_detect">Select object to detect</string>
     <string name="btn_VC0">Voice Control 1</string>
     <string name="btn_VC1">Voice Control 2</string>
-    <string name="voice_control">Voice Control</string>
+    <string name="voice_control">Voice Command</string>
     <string name="remote_control">Remote Control</string>
+    <string name="fire_pull">Stream Video</string>
     <string name="discover_new_devices">Discover New Devices</string>
     <string name="show_paired_devices">Show paired Devices</string>
     <string name="bluetooth_off">Bluetooth OFF</string>
@@ -37,7 +39,11 @@
     <string name="read_buffer">Read Buffer</string>
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
-    <string name="gps">GPS</string>
+    <string name="gpsData">Location</string>
+    <string name="calibrate">Calibrate</string>
     <string name="lat">LAT</string>
     <string name="lon">LON</string>
+    <string name="server">Server</string>
+    <string name="color_blob_detection">Detect Colors</string>
+    <string name="connection">Remote Connection</string>
 </resources>

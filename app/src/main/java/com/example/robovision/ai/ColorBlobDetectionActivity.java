@@ -67,7 +67,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
+    private final BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
@@ -121,7 +121,7 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback);
         } else {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -149,7 +149,6 @@ public class ColorBlobDetectionActivity extends CameraActivity implements OnTouc
             mainActivity();
         }
         mOnCameraFrameRender = new OnCameraFrameRender(new CalibrationFrameRender(mCameraCalibrator)); //Renderer with distortion matrix
-        //////////////////////////////////////////////////
 
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mDetector = new ColorBlobDetector();

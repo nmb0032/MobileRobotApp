@@ -18,6 +18,21 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- The Agora SDK requires Bluetooth permissions in case users are using Bluetooth devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <!-- For Android 12 and above devices, the following permission is also required. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+
+
     <queries>
         <intent>
             <action android:name="android.speech.RecognitionService" />
@@ -43,8 +58,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <permission android:name="android.permission.BLUETOOTH" android:label="BLUETOOTH" />
     <permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="ReservedSystemPermission" />
+    <permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:ignore="ReservedSystemPermission" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
@@ -65,6 +82,16 @@
         android:supportsRtl="true"
         tools:targetApi="31">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+
+        <meta-data
+            android:name="com.google.firebase.database-url"
+            android:value="https://your_project_id.firebaseio.com" />
+
+>>>>>>> develop
          <activity
             android:name=".RemoteControl"
              android:theme="@style/Theme.RoboVision"
@@ -74,6 +101,42 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".firebaseController"
+            android:theme="@style/Theme.RoboVision"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".firebasePull"
+            android:theme="@style/Theme.RoboVision"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".RemoteConnection"
+            android:theme="@style/Theme.RoboVision"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".firebaseConnection"
+            android:theme="@style/Theme.RoboVision"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".bluetooth.BluetoothActivity"
             android:theme="@style/Theme.RoboVision"
             android:exported="true">
@@ -82,7 +145,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ai.calibration.CameraCalibrationActivity"
-                  android:exported="true">
+                  android:exported="true"
+                  android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
@@ -94,10 +158,12 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ai.OpenCVActivity"
                   android:theme="@style/Theme.RoboVision"
-                  android:screenOrientation="landscape"> <!--Screen orientation-->
+                  android:screenOrientation="landscape">
         </activity>
+
         <activity
             android:name=".VoiceControlActivity"
             android:theme="@style/Theme.RoboVision"
@@ -106,6 +172,7 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".gps"
             android:theme="@style/Theme.RoboVision"
@@ -127,6 +194,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

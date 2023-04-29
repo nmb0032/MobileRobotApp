@@ -131,8 +131,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     @Override
     public void onCameraViewStarted(int width, int height) {
         Log.d(TAG, "onCameraViewStarted with width: " + width + " Height: " + height);
-        //mRGBA = new Mat(height, width, CvType.CV_8UC4);
-        frame     = new Mat(height, width, CvType.CV_8UC4);
+        frame = new Mat(height, width, CvType.CV_8UC4);
 
         mDriver.setup(width);
 
@@ -141,7 +140,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
         net = Dnn.readNetFromCaffe(proto, weights);
         Log.i(TAG, "Network loaded successfully");
 
-        mCameraCalibrator = new CameraCalibrator(width, height, false);
+        mCameraCalibrator = new CameraCalibrator(width, height, true);
         if(!CalibrationResult.tryLoad(this, mCameraCalibrator.getCameraMatrix(), mCameraCalibrator.getDistortionCoefficients(), getBaseContext())){
             Log.e(TAG, "Camera not calibrated, returning home");
             Toast.makeText(getApplicationContext(), "Please calibrate camera", Toast.LENGTH_LONG).show();
@@ -376,7 +375,7 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
     }
 
     private void cameraViewSetup(){
-        javaCameraView = (JavaCameraView)findViewById(R.id.my_camera_view);
+        javaCameraView = findViewById(R.id.my_camera_view);
         javaCameraView.setVisibility(SurfaceView.VISIBLE);
         javaCameraView.setCvCameraViewListener(OpenCVActivity.this);
     }
@@ -385,31 +384,28 @@ public class OpenCVActivity extends MainActivity implements CameraBridgeViewBase
      * Shows Menu select to change target
      */
     public void addDropDownMenu() {
-        btnSelect_class = (Button) findViewById(R.id.btnSelect_class);
-        btnSelect_class.setOnClickListener(new View.OnClickListener() {
+        btnSelect_class = findViewById(R.id.btnSelect_class);
 
-            @Override
-            public void onClick(View v) {
+        btnSelect_class.setOnClickListener(v -> {
 
-                PopupMenu popupMenu = new PopupMenu(OpenCVActivity.this, btnSelect_class);
-                int tmp = 0;
-                for(String name: CLASSES){
-                    popupMenu.getMenu().add(tmp, tmp, tmp, name);
-                    tmp++;
-                }
-
-                popupMenu.getMenuInflater().inflate(R.menu.opencv, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        mSelectedClass = (String) menuItem.getTitle();
-                        Toast.makeText(OpenCVActivity.this,
-                                "Target Set to " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-                popupMenu.show();
+            PopupMenu popupMenu = new PopupMenu(OpenCVActivity.this, btnSelect_class);
+            int tmp = 0;
+            for(String name: CLASSES){
+                popupMenu.getMenu().add(tmp, tmp, tmp, name);
+                tmp++;
             }
+
+            popupMenu.getMenuInflater().inflate(R.menu.opencv, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    mSelectedClass = (String) menuItem.getTitle();
+                    Toast.makeText(OpenCVActivity.this,
+                            "Target Set to " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+            popupMenu.show();
         });
 
     }

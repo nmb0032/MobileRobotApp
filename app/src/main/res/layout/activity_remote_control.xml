@@ -64,25 +64,25 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="173dp">
 
                 <Space
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".33" />
 
                 <Button
                     android:id="@+id/Reverse"
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
                     android:layout_height="84dp"
+                    android:layout_weight=".33"
                     android:gravity="center"
                     android:text="@string/Reverse" />
 
                 <Space
-                    android:layout_weight=".33"
                     android:layout_width="0dip"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".33" />
             </TableRow>
 
         </TableLayout>
